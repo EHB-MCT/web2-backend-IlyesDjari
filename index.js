@@ -2,12 +2,10 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-res.send('Hello Ilyes');
+res.send('Hello Ilyes i <3');
 });
 
-app.get('/api', (req, res) => {
-    res.send([1,2,3]);
-    });
 
-
-app.listen(3000, () => console.log('Listening on port 3000'));
+// Preparing for hosting envirement, support of dynamic port, if none => use 3000
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Listening on port ${port}`));
