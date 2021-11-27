@@ -24,8 +24,11 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+// Require the spotify web api library
 let SpotifyWebApi = require('spotify-web-api-node');
 
+
+// All the autorizations i'm requisting the user in order to receive data
 const scopes = [
     'ugc-image-upload',
     'user-read-playback-state',
@@ -52,7 +55,7 @@ const scopes = [
 let spotifyApi = new SpotifyWebApi({
     clientId: '75d6012515364a608ebbf7ec5113308c',
     clientSecret: 'e9069eeeb800474394cbe578f1a93c67',
-    redirectUri: `http://localhost:3000/callback`
+    redirectUri: `http://127.0.0.1:5500/web2-frontend-IlyesDjari/pages/home.html`
   });
   
   app.get('/login', (req, res) => {
@@ -75,25 +78,12 @@ let spotifyApi = new SpotifyWebApi({
       .then(data => {
         const access_token = data.body['access_token'];
         const refresh_token = data.body['refresh_token'];
-        const expires_in = data.body['expires_in'];
   
         spotifyApi.setAccessToken(access_token);
         spotifyApi.setRefreshToken(refresh_token);
-  
-        console.log('access_token:', access_token);
-        console.log('refresh_token:', refresh_token);
-  
-        console.log(
-          `Sucessfully retreived access token. Expires in ${expires_in} s.`
-        );
-        res.send('Success! You can now close the window.');
-  
-        setInterval(async () => {
+        setInterval(async () => {        
           const data = await spotifyApi.refreshAccessToken();
           const access_token = data.body['access_token'];
-  
-          console.log('The access token has been refreshed!');
-          console.log('access_token:', access_token);
           spotifyApi.setAccessToken(access_token);
         }, expires_in / 2 * 1000);
       })
