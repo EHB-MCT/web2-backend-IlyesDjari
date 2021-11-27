@@ -7,6 +7,8 @@ const req = require('express/lib/request');
 const app = express();
 // To use mongoose library
 const mongoose = require('mongoose');
+// Require the spotify web api library
+const SpotifyWebApi = require('spotify-web-api-node');
 
 
 /*CONNECTION TO MY MONGODB DATABASE*/ 
@@ -24,9 +26,9 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// Require the spotify web api library
-let SpotifyWebApi = require('spotify-web-api-node');
 
+
+/*LOGIN OF SPOTIFY*/ 
 
 // All the autorizations i'm requisting the user in order to receive data
 const scopes = [
@@ -50,14 +52,14 @@ const scopes = [
     'user-follow-read',
     'user-follow-modify'
   ];
-  
-
 let spotifyApi = new SpotifyWebApi({
-    clientId: '75d6012515364a608ebbf7ec5113308c',
-    clientSecret: 'e9069eeeb800474394cbe578f1a93c67',
-    redirectUri: `http://127.0.0.1:5500/web2-frontend-IlyesDjari/pages/home.html`
+    clientId: process.env.clientId,
+    clientSecret: process.env.clientSecret,
+    redirectUri: process.env.redirectURL
   });
   
+
+
   app.get('/login', (req, res) => {
     res.redirect(spotifyApi.createAuthorizeURL(scopes));
   });
@@ -68,7 +70,6 @@ let spotifyApi = new SpotifyWebApi({
     const state = req.query.state;
   
     if (error) {
-      console.error('Callback Error:', error);
       res.send(`Callback Error: ${error}`);
       return;
     }
@@ -78,17 +79,44 @@ let spotifyApi = new SpotifyWebApi({
       .then(data => {
         const access_token = data.body['access_token'];
         const refresh_token = data.body['refresh_token'];
-  
+        const expires_in = data.body['expires_in'];
         spotifyApi.setAccessToken(access_token);
         spotifyApi.setRefreshToken(refresh_token);
-        setInterval(async () => {        
+        res.send(data);
+        setInterval(async () => {
           const data = await spotifyApi.refreshAccessToken();
           const access_token = data.body['access_token'];
           spotifyApi.setAccessToken(access_token);
         }, expires_in / 2 * 1000);
-      })
-      .catch(error => {
-        console.error('Error getting Tokens:', error);
-        res.send(`Error getting Tokens: ${error}`);
       });
   });
+
+
+
+
+  app.get('/userinfo', (req, res) => {
+
+  const authorizationCode =
+  '<insert authorization code with user-read-private and user-read-email scopes>';
+
+// Retrieve access token
+spotifyApi
+  .authorizationCodeGrant(authorizationCode)
+  .then(function(data) {
+    console.log('Retrieved access token', data.body['access_token']);
+
+    // Access token set
+    spotifyApi.setAccessToken(data.body['access_token']);
+
+    // Information getted with acces token
+    return spotifyApi.getMe();
+  })
+  .then(function(data) {
+    const username = data.body['display_name'];
+    const userpicture = data.body.images[0].url;
+    res.send(username, userpicture);
+  })
+  .catch(function(err) {
+    console.log('Something went wrong:', err.message);
+  });
+});
