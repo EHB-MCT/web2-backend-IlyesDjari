@@ -5,8 +5,6 @@ const express = require('express');
 // Create app variable to configure server
 const app = express();
 
-
-
 /*CONNECTION TO MY MONGODB DATABASE*/
 mongoose.connect(process.env.URL);
 const db = mongoose.connection;
@@ -17,7 +15,6 @@ db.once('open', () => console.log('Succesfully connected to Database'));
 
 // Accept JSON as a body instead of POST element
 app.use(express.json());
-
 
 app.get("/", function (req, res) {
   res.send("Working");
