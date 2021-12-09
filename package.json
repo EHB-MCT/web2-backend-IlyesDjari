@@ -6,5 +6,24 @@
     "mongoose": "^6.0.13",
     "request": "^2.88.2",
     "spotify-web-api-node": "^5.0.2"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "web2-backend-ilyesdjari",
+  "version": "1.0.0",
+  "main": "api.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EHB-MCT/web2-backend-IlyesDjari.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EHB-MCT/web2-backend-IlyesDjari/issues"
+  },
+  "homepage": "https://github.com/EHB-MCT/web2-backend-IlyesDjari#readme",
+  "description": ""
 }
