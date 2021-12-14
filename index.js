@@ -2,6 +2,8 @@
 require('dotenv').config();
 // To use express library
 const express = require('express');
+const mongoose = require('mongoose');
+
 // Create app variable to configure server
 const app = express();
 
@@ -17,10 +19,10 @@ db.once('open', () => console.log('Succesfully connected to Database'));
 app.use(express.json());
 
 app.get("/", function (req, res) {
-  res.send("Working");
+  res.send("Working perfectly ilyes");
 })
 
-app.listen(8888, () =>
+app.listen(process.env.PORT, () =>
   console.log(
     'HTTP Server up.'
   )
