@@ -1,9 +1,9 @@
 { "name": "oto",
   "version": "1.0.0",
-  "description": "This is the fitst version of OTO",
-  "main": "index.js",
+  "description": "This is the first version of OTO",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "body-parser": "^1.19.1",
