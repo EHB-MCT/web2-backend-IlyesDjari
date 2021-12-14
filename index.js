@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 // Create app variable to configure server
 const app = express();
 const PORT = process.env.PORT || 8888;
-const URL = process.env.URL;
+const URL = "mongodb+srv://oto:oto@oto.bp5pa.mongodb.net/OTO?retryWrites=true&w=majority";
 
 /*CONNECTION TO MY MONGODB DATABASE*/
 mongoose.connect(URL);
