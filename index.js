@@ -23,44 +23,10 @@ const PROFILE = "https://api.spotify.com/v1/me";
 const CHOICES = [];
 
 
-window.onload = function onPageLoad() {
-    client_id = localStorage.getItem("client_id");
-    client_secret = localStorage.getItem("client_secret");
-
-    if (window.location.search.length > 0) {
-        handleRedirect();
-    } else {
-        access_token = localStorage.getItem("access_token");
-        if (access_token == null) {
-            document.getElementById("tokenSection").style.display = 'block';
-        } else {
-            userInformation();
-            currentlyPlaying();
-            newRelease();
-        }
-    }
-};
 
 
-function handleRedirect() {
-    let code = getCode();
-    fetchAccessToken(code);
-    window.history.pushState("", "", redirect_uri);
-}
 
-function getCode() {
-    let code = null;
-    const queryString = window.location.search;
-    if (queryString.length > 0) {
-        const urlParams = new URLSearchParams(queryString);
-        code = urlParams.get('code');
-    }
-    return code;
-}
-
-
-app.get('/test', function routeHandler(req, res) {
-
+app.get('/connect', function routeHandler(req, res) {
     client_id = process.env.clientid;
     client_secret = process.env.clientsecret;
     let url = AUTHORIZE;
@@ -69,11 +35,11 @@ app.get('/test', function routeHandler(req, res) {
     url += "&redirect_uri=" + encodeURI(redirect_uri);
     url += "&show_dialog=true";
     url += "&scope=user-read-private user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
-    res.send(window.location.href = url);
+    res.send(url);
   });
 
 
-
+app.get('/tokent', function routeHandler(req, res){
 function fetchAccessToken(code) {
     let body = "grant_type=authorization_code";
     body += "&code=" + code;
@@ -81,6 +47,7 @@ function fetchAccessToken(code) {
     body += "&client_id=" + client_id;
     body += "&client_secret=" + client_secret;
     callAuthorizationApi(body);
+}
 }
 
 function refreshAccessToken() {
