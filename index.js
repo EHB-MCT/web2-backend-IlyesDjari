@@ -9,10 +9,9 @@ const mongoose = require('mongoose');
 // Create app variable to configure server
 const app = express();
 const PORT = process.env.PORT || 8888;
-const URL = "mongodb+srv://oto:oto@oto.bp5pa.mongodb.net/OTO?retryWrites=true&w=majority";
 
 /*CONNECTION TO MY MONGODB DATABASE*/
-mongoose.connect(URL);
+mongoose.connect(process.env.URL);
 const db = mongoose.connection;
 //Log error if connection fails
 db.on('error', (error) => console.error(error));
