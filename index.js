@@ -36,8 +36,10 @@ app.use(function(req, res, next) {
 
 
 app.get('/connect', function routeHandler(req, res, next) {
-    client_id = process.env.clientid;
-    client_secret = process.env.clientsecret;
+    
+    // For an unknown reason env files or Const can't be user here so I have to show credentials
+    client_id = "75d6012515364a608ebbf7ec5113308c";
+    client_secret ="e9069eeeb800474394cbe578f1a93c67";
     let url = AUTHORIZE;
     url += "?client_id=" + client_id;
     url += "&response_type=code";
