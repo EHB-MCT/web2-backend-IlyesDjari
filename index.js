@@ -38,8 +38,8 @@ app.get('/connect', function routeHandler(req, res) {
     res.send(url);
   });
 
-
-app.get('/tokent', function routeHandler(req, res){
+/*
+app.get('/token', function routeHandler(req, res){
 function fetchAccessToken(code) {
     let body = "grant_type=authorization_code";
     body += "&code=" + code;
@@ -177,7 +177,7 @@ function newRealeaseResponse() {
         refreshAccessToken();
     }
 }
-
+*/
 
 
 
