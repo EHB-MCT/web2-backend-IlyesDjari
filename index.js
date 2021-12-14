@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 // Create app variable to configure server
 const app = express();
-const port = process.env.PORT;
+const PORT = process.env.PORT || 8888;
 const URL = process.env.URL;
 
 /*CONNECTION TO MY MONGODB DATABASE*/
@@ -43,7 +43,7 @@ app.get("/", function (req, res) {
 
 app.use(express.static('public'));
 
-app.listen(8888, () =>
+app.listen(PORT, () =>
   console.log(
     'HTTP Server up.'
   )
