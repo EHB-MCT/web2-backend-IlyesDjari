@@ -24,9 +24,22 @@ db.once('open', () => console.log('Succesfully connected to Database'));
 app.use(bodyParser.json());
 
 
-/*app.get("/", function (req, res) {
-  res.send("Working perfectly ilyes");
-})*/
+app.get("/", function (req, res) {
+  let html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Oto Public</title>
+  </head>
+  <body>
+      <h1>Hello Ilyes</h1>
+      <p>Web 2 is soooooo fun</p>
+  </body>
+  </html>`
+  res.send(html);
+})
 
 app.use(express.static('public'));
 
