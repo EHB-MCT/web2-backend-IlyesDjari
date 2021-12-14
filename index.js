@@ -32,7 +32,10 @@ app.use(function(req, res, next) {
 });
 
 
-app.get('/connect', function routeHandler(req, res) {
+
+
+
+app.get('/connect', function routeHandler(req, res, next) {
     client_id = process.env.clientid;
     client_secret = process.env.clientsecret;
     let url = AUTHORIZE;
@@ -41,7 +44,7 @@ app.get('/connect', function routeHandler(req, res) {
     url += "&redirect_uri=" + encodeURI(redirect_uri);
     url += "&show_dialog=true";
     url += "&scope=user-read-private user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
-    res.send(url);
+    res.send(url.json);
   });
 
 /*
