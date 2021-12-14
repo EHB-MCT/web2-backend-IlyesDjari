@@ -22,7 +22,7 @@ app.get("/", function (req, res) {
   res.send("Working perfectly ilyes");
 })
 
-app.listen(process.env.PORT, () =>
+app.listen(8888, () =>
   console.log(
     'HTTP Server up.'
   )
