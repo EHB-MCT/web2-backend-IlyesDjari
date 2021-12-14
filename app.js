@@ -20,13 +20,15 @@ db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Succesfully connected to Database'));
 
 
-
-
 // Accept JSON as a body instead of POST element
 app.use(bodyParser.json());
-app.get("/", function (req, res) {
+
+
+/*app.get("/", function (req, res) {
   res.send("Working perfectly ilyes");
-})
+})*/
+
+app.use(express.static('public'));
 
 app.listen(8888, () =>
   console.log(
