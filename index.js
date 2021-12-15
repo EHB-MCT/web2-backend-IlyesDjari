@@ -56,6 +56,7 @@ app.get('/connect', function routeHandler(req, res, next) {
         await mongo.addCode(code);
         console.log(code);
         res.status(200).send("Users code has been added to DB")
+
     } catch (error) {
         console.log(error);
     }
@@ -70,7 +71,6 @@ app.get('/connect', function routeHandler(req, res, next) {
     } catch (error) {
         console.log(error);
     }
-
   });
 
 
@@ -89,7 +89,7 @@ db.once('open', () => console.log('Succesfully connected to Database'));
 async function addCode(code) {
     const result = await code.insertOne(code);
     console.log('Added code for the user =>', code);
-    return result;
+    return code;
   }
 
   async function getCode() {
