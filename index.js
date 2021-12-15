@@ -66,10 +66,11 @@ app.get('/connect', function routeHandler(req, res, next) {
     try {
         await connectMongo();
         let code = await mongo.getCode();
+        res.send({"code": code});
     } catch (error) {
         console.log(error);
     }
-  res.send({"code": code});
+
   });
 
 
@@ -86,13 +87,13 @@ db.once('open', () => console.log('Succesfully connected to Database'));
 }
 
 async function addCode(code) {
-    const result = await challengesCollection.insertOne(code);
+    const result = await code.insertOne(code);
     console.log('Added code for the user =>', code);
     return result;
   }
 
   async function getCode() {
-    const code = await challengesCollection.find({});
+    const code = await code.find({});
     console.log('User code is =>', code);
     return code;
   }
