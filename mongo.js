@@ -18,17 +18,17 @@ const client = new mdb.MongoClient(uri, {
     console.log("Successfully connected to database!")
     }
 
-    // async function getCode() {
-    //     const findcode = code.find({});
-    //     console.log('User code is =>', findcode);
-    //     return findcode;
-    // }
-
-    async function addCode(code) {
-        const addcode = code.insertOne(addcode);
-        console.log('Added code for the user =>', addcode);
-        return addcode;
+    async function getCode() {
+        const findcode = code.find({});
+        console.log('User code is =>', findcode);
+        return findcode;
     }
+
+    // async function addCode(code) {
+    //     const addcode = code.insertOne(addcode);
+    //     console.log('Added code for the user =>', addcode);
+    //     return addcode;
+    // }
       
     function closeDatabaseConnection() {
         mongoClient.close();
@@ -38,6 +38,6 @@ const client = new mdb.MongoClient(uri, {
         export {
             connectMongo,
             closeDatabaseConnection,
-            addCode,
-            // getCode,
+            //addCode,
+            getCode,
           };

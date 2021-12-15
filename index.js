@@ -39,28 +39,17 @@ app.get('/connect', function routeHandler(req, res, next) {
   });
 
   
-  app.post('/getcode', function getCode(req, res, next) {
-    try {
-        mdb.connectMongo();
-        console.log(req.body);
-        let thecode = req.body;
-        mdb.addCode(thecode);
-        console.log(thecode);
-        res.status(200).send("Users code has been added to DB");
+  // app.post('/getcode', function getCode(req, res, next) {
 
-    } catch (error) {
-        console.log(error);
-    }
-    finally {
-      mdb.closeDatabaseConnection();
-    }
-  });
-
-  // app.get('/getcode', function retrieveCode(req, res, next) {
+  //   console.log("hello");
   //   try {
   //       mdb.connectMongo();
-  //       let foundcode = mdb.getCode();
-  //       res.send({"code": foundcode});
+  //       console.log(req.body);
+  //       let thecode = req.body;
+  //       mdb.addCode(thecode);
+  //       console.log(thecode);
+  //       res.status(200).send("Users code has been added to DB");
+
   //   } catch (error) {
   //       console.log(error);
   //   }
@@ -68,6 +57,19 @@ app.get('/connect', function routeHandler(req, res, next) {
   //     mdb.closeDatabaseConnection();
   //   }
   // });
+
+  app.get('/getcode', function retrieveCode(req, res, next) {
+    try {
+        mdb.connectMongo();
+        let foundcode = mdb.getCode();
+        res.send({"code": foundcode});
+    } catch (error) {
+        console.log(error);
+    }
+    finally {
+      mdb.closeDatabaseConnection();
+    }
+  });
 
 
 app.get("/", function (req, res) {
