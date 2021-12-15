@@ -39,7 +39,7 @@ app.get('/connect', function routeHandler(req, res, next) {
 
     var scopes = ['user-read-private', 'user-read-email'],
     redirectUri = 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html',
-    clientId = process.env.clientid;
+    clientId = "75d6012515364a608ebbf7ec5113308c";
   
   // Setting credentials can be done in the wrapper's constructor, or using the API object's setters.
   var spotifyApi = new SpotifyWebApi({
@@ -65,58 +65,7 @@ app.get('/connect', function routeHandler(req, res, next) {
     //window.history.pushState("", "", redirect_uri);
 })
 
-  function getCode() {
-    let code = null;
-    client_id = "75d6012515364a608ebbf7ec5113308c";
-    client_secret ="e9069eeeb800474394cbe578f1a93c67";
-    let url = AUTHORIZE;
-    url += "?client_id=" + client_id;
-    url += "&response_type=code";
-    url += "&redirect_uri=" + encodeURI(redirect_uri);
-    url += "&show_dialog=true";
-    url += "&scope=user-read-private user-read-email user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
-    const queryString = "http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html?code=AQAILGS2xHFpdU-a3tIY5BBPSifSOg6sg6MuBxg0F6GjGPyGWLMcvHprR8kKWAcetj2phoyLCTcAWbnNlE7oija7OZ3yB2YWOheLy6DJ5Al4icYv2xrcjzCtt1R5QNW7JIdxEYzxnTG-Vtf7ArJL1Z08Bgjp5ZY0RzSJZVnxM0tcY_AuXrHI7M1PwUJfi78B5EdwR3nJe1_095ALzFgpb0Uyb7tq3-B2QMO_CWx_By6__IenPJRG46OIYZLwVcUthGYMOhEd4IHG-OCEnAMgY6Km8QexcRkYCGFe1HgniQFO8tYMjVUfbfm-Ukj5LjjRYMSl1jONtksJi7pB_hu74CYDE-tnF9N2ucqO5bpsEMZGZPJAEmb-K1rJGrfFOA-ju_lSPPo6rwfvqwiYrpTmRjOPcdwlAfnSDg8E4jN4kSO3LzzHCD0Eb3A33DH4dD5vVSFsBx4HCRPeXfanT6MqgscViJ7CrkYlGo8EBQ-d";
-    console.log(url);
-    if (queryString.length > 0) {
-        const urlParams = new URLSearchParams(queryString);
-        code = urlParams.get('code');
-    }
-    return code;
-}
-
-function fetchAccessToken(code) {
-    console.log("here i am further");
-    let body = "grant_type=authorization_code";
-    body += "&code=" + "AQAILGS2xHFpdU-a3tIY5BBPSifSOg6sg6MuBxg0F6GjGPyGWLMcvHprR8kKWAcetj2phoyLCTcAWbnNlE7oija7OZ3yB2YWOheLy6DJ5Al4icYv2xrcjzCtt1R5QNW7JIdxEYzxnTG-Vtf7ArJL1Z08Bgjp5ZY0RzSJZVnxM0tcY_AuXrHI7M1PwUJfi78B5EdwR3nJe1_095ALzFgpb0Uyb7tq3-B2QMO_CWx_By6__IenPJRG46OIYZLwVcUthGYMOhEd4IHG-OCEnAMgY6Km8QexcRkYCGFe1HgniQFO8tYMjVUfbfm-Ukj5LjjRYMSl1jONtksJi7pB_hu74CYDE-tnF9N2ucqO5bpsEMZGZPJAEmb-K1rJGrfFOA-ju_lSPPo6rwfvqwiYrpTmRjOPcdwlAfnSDg8E4jN4kSO3LzzHCD0Eb3A33DH4dD5vVSFsBx4HCRPeXfanT6MqgscViJ7CrkYlGo8EBQ-d";
-    body += "&redirect_uri=" + encodeURI(redirect_uri);
-    body += "&client_id=" + client_id;
-    body += "&client_secret=" + client_secret;
-
-     fetch(TOKEN, {
-        method: "POST",
-        headers: {
-            'Content-Type': "application/x-www-form-urlencoded",
-            'Authorization': 'Basic ' + btoa(client_id + ":" + client_secret)
-     },
-    body: body
-    })
-
-
-    if (this.status == 200) {
-        var data = JSON.parse(this.responseText);
-        console.log(data);
-        if (data.access_token != undefined) {
-            access_token = data.access_token;
-        }
-        if (data.refresh_token != undefined) {
-            refresh_token = data.refresh_token;
-
-        }
-    } else {
-        console.log("Yo", this.responseText);
-    }
-}
-
+  
 /*
 
 /*function refreshAccessToken() {
@@ -128,18 +77,6 @@ function fetchAccessToken(code) {
 }
 
 
-
-
-
-
-function callApi(method, url, body, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open(method, url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-    xhr.send(body);
-    xhr.onload = callback;
-}
 
 function handleApiResponse() {
     if (this.status == 200) {
