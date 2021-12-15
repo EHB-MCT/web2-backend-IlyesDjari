@@ -19,7 +19,7 @@ const client = new mdb.MongoClient(uri, {
     }
 
     async function getCode() {
-        const findcode = code.find({});
+        const findcode = mdb.code.find({});
         console.log('User code is =>', findcode);
         return findcode;
     }
