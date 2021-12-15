@@ -1,13 +1,12 @@
-// Load all environment variables from env file
-require('dotenv').config();
-const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
-var SpotifyWebApi = require('spotify-web-api-node');
+"use strict"
 
-// To use express library
-const express = require('express');
-const mongoose = require('mongoose');
-// Create app variable to configure server
+
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import SpotifyWebApi from "spotify-web-api-node";
+import * as mongo from "./mongo.js";
+
 const app = express();
 const PORT = process.env.PORT || 8888;
 
@@ -19,19 +18,12 @@ const PROFILE = "https://api.spotify.com/v1/me";
 const CHOICES = [];
 
 
-// Avoid any CORS error :'(
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", '*');
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-  next();
-});
 
+// Avoid any CORS error :'(
+app.use(cors());
 
 
 app.get('/connect', function routeHandler(req, res, next) {
-
     var scopes = ['user-read-private', 'user-read-email'],
     redirectUri = 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html',
     clientId = "75d6012515364a608ebbf7ec5113308c";
@@ -42,65 +34,40 @@ app.get('/connect', function routeHandler(req, res, next) {
   });
   // Create the authorization URL for the User
   var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
-  
+
   res.send({"data": authorizeURL});
   });
 
 
   app.post('/getcode', function getCode(req, res, next) {
     try {
-        await connectMongo();
+        await mongo.connectMongo();
         console.log(req.body);
         let code = req.body;
-
         await mongo.addCode(code);
         console.log(code);
-        res.status(200).send("Users code has been added to DB")
+        res.status(200).send("Users code has been added to DB");
 
     } catch (error) {
         console.log(error);
     }
+    finally {
+        mongo.closeDatabaseConnection();
+    }
   });
 
   app.get('/getcode', function retrieveCode(req, res, next) {
- 
     try {
-        await connectMongo();
+        await mongo.connectMongo();
         let code = await mongo.getCode();
         res.send({"code": code});
     } catch (error) {
         console.log(error);
     }
+    finally {
+        mongo.closeDatabaseConnection();
+    }
   });
-
-
-
-
-/*CONNECTION TO MY MONGODB DATABASE*/
-async function connectMongo() {
-mongoose.connect(process.env.URL);
-const db = mongoose.connection;
-//Log error if connection fails
-db.on('error', (error) => console.error(error));
-// Conseole log a succesfull connection to DB
-db.once('open', () => console.log('Succesfully connected to Database'));
-}
-
-async function addCode(code) {
-    const result = await code.insertOne(code);
-    console.log('Added code for the user =>', code);
-    return code;
-  }
-
-  async function getCode() {
-    const code = await code.find({});
-    console.log('User code is =>', code);
-    return code;
-  }
-  
-
-// Accept JSON as a body instead of POST element
-app.use(bodyParser.json());
 
 
 app.get("/", function (req, res) {
@@ -119,29 +86,6 @@ app.get("/", function (req, res) {
   </html>`
   res.send(html);
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.use(express.static('public'));
 
