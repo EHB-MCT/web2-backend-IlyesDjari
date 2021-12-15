@@ -19,6 +19,7 @@ const PROFILE = "https://api.spotify.com/v1/me";
 const CHOICES = [];
 
 
+// Avoid any CORS error :'(
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", '*');
   res.header("Access-Control-Allow-Credentials", true);
@@ -39,20 +40,37 @@ app.get('/connect', function routeHandler(req, res, next) {
     redirectUri: redirectUri,
     clientId: clientId
   });
-  // Create the authorization URL
+  // Create the authorization URL for the User
   var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
-  // https://accounts.spotify.com:443/authorize?client_id=5fe01282e44241328a84e7c5cc169165&response_type=code&redirect_uri=https://example.com/callback&scope=user-read-private%20user-read-email&state=some-state-of-my-choice
+  
   res.send({"data": authorizeURL});
   });
 
 
-  app.get('/getcode', function routeHandler(req, res, next) {
+  app.post('/getcode', function getCode(req, res, next) {
+    try {
+        await connectMongo();
+        console.log(req.body);
+        let code = req.body;
 
-console.log("I live");
-  console.log(req.body);
-
+        await mongo.addCode(code);
+        console.log(code);
+        res.status(200).send("Users code has been added to DB")
+    } catch (error) {
+        console.log(error);
+    }
   });
 
+  app.get('/connect', function retrieveCode(req, res, next) {
+ 
+    try {
+        await connectMongo();
+        let code = await mongo.getCode();
+    } catch (error) {
+        console.log(error);
+    }
+  res.send({"code": code});
+  });
 
   
 /*
@@ -178,20 +196,28 @@ function newRealeaseResponse() {
 
 
 
-
-
-
-
-
-
 /*CONNECTION TO MY MONGODB DATABASE*/
+async function connectMongo() {
 mongoose.connect(process.env.URL);
 const db = mongoose.connection;
 //Log error if connection fails
 db.on('error', (error) => console.error(error));
 // Conseole log a succesfull connection to DB
 db.once('open', () => console.log('Succesfully connected to Database'));
+}
 
+async function addCode(code) {
+    const result = await challengesCollection.insertOne(code);
+    console.log('Added code for the user =>', code);
+    return result;
+  }
+
+  async function getCode() {
+    const code = await challengesCollection.find({});
+    console.log('User code is =>', code);
+    return code;
+  }
+  
 
 // Accept JSON as a body instead of POST element
 app.use(bodyParser.json());
@@ -211,7 +237,6 @@ app.get("/", function (req, res) {
       <p>Web 2 is soooooo fun</p>
   </body>
   </html>`
-
   res.send(html);
 })
 
