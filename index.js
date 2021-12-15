@@ -62,9 +62,6 @@ app.get('/connect', function routeHandler(req, res, next) {
     } catch (error) {
         console.log(error);
     }
-    finally {
-      mdb.closeDatabaseConnection();
-    }
   });
 
 
