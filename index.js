@@ -48,8 +48,9 @@ app.get('/connect', function routeHandler(req, res, next) {
 
   app.get('/getcode', function routeHandler(req, res, next) {
 
-  res.send(req.body);
-  
+console.log("I live");
+  console.log(req.body);
+
   });
 
 
