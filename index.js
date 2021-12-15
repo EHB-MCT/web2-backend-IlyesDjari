@@ -11,12 +11,6 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 8888;
 
-let redirect_uri = "http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html";
-let client_id = process.env.clientid;
-let client_secret = process.env.clientsecret;
-let access_token = null;
-let refresh_token = null;
-
 const AUTHORIZE = "https://accounts.spotify.com/authorize";
 const TOKEN = "https://accounts.spotify.com/api/token";
 const PLAYER = "https://api.spotify.com/v1/me/player";
@@ -40,13 +34,11 @@ app.get('/connect', function routeHandler(req, res, next) {
     var scopes = ['user-read-private', 'user-read-email'],
     redirectUri = 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html',
     clientId = "75d6012515364a608ebbf7ec5113308c";
-  
-  // Setting credentials can be done in the wrapper's constructor, or using the API object's setters.
+  // Setting credentials
   var spotifyApi = new SpotifyWebApi({
     redirectUri: redirectUri,
     clientId: clientId
   });
-  
   // Create the authorization URL
   var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
   // https://accounts.spotify.com:443/authorize?client_id=5fe01282e44241328a84e7c5cc169165&response_type=code&redirect_uri=https://example.com/callback&scope=user-read-private%20user-read-email&state=some-state-of-my-choice
@@ -54,16 +46,11 @@ app.get('/connect', function routeHandler(req, res, next) {
   });
 
 
+  app.get('/getcode', function routeHandler(req, res, next) {
 
+  res.send({"data": code});
+  });
 
-
-
-  app.get('/code', function handleRedirect(req, res, next) {
-    let code = getCode();
-    fetchAccessToken(code);
-    res.send({"code": code})
-    //window.history.pushState("", "", redirect_uri);
-})
 
   
 /*
