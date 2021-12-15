@@ -50,7 +50,7 @@ app.get('/connect', function routeHandler(req, res, next) {
   // Create the authorization URL
   var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
   // https://accounts.spotify.com:443/authorize?client_id=5fe01282e44241328a84e7c5cc169165&response_type=code&redirect_uri=https://example.com/callback&scope=user-read-private%20user-read-email&state=some-state-of-my-choice
-  res.send(authorizeURL);
+  res.send({"data": authorizeURL});
   });
 
 
