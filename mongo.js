@@ -7,14 +7,10 @@ import "dotenv/config";
 
 const uri = process.env.URL;
 
-const client = new mongo.MongoClient(uri, {
+const client = new mdb.MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-
-
-
-
 
 
     async function connectMongo() {
@@ -22,24 +18,26 @@ const client = new mongo.MongoClient(uri, {
     console.log("Successfully connected to database!")
     }
 
-    async function getCode() {
-        const code = await code.find({});
-        console.log('User code is =>', code);
-        return code;
-    }
+    // async function getCode() {
+    //     const findcode = code.find({});
+    //     console.log('User code is =>', findcode);
+    //     return findcode;
+    // }
 
     async function addCode(code) {
-        const result = await code.insertOne(code);
-        console.log('Added code for the user =>', code);
-        return code;
+        const addcode = code.insertOne(addcode);
+        console.log('Added code for the user =>', addcode);
+        return addcode;
     }
       
-
+    function closeDatabaseConnection() {
+        mongoClient.close();
+      }
 
      
         export {
             connectMongo,
             closeDatabaseConnection,
             addCode,
-            getCode,
+            // getCode,
           };

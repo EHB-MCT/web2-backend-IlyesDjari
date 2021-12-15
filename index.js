@@ -5,7 +5,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import SpotifyWebApi from "spotify-web-api-node";
-import * as mongo from "./mongo.js";
+import * as mdb from "./mongo.js";
 
 const app = express();
 const PORT = process.env.PORT || 8888;
@@ -38,36 +38,36 @@ app.get('/connect', function routeHandler(req, res, next) {
   res.send({"data": authorizeURL});
   });
 
-
+  
   app.post('/getcode', function getCode(req, res, next) {
     try {
-        await mongo.connectMongo();
+        mdb.connectMongo();
         console.log(req.body);
-        let code = req.body;
-        await mongo.addCode(code);
-        console.log(code);
+        let thecode = req.body;
+        mdb.addCode(thecode);
+        console.log(thecode);
         res.status(200).send("Users code has been added to DB");
 
     } catch (error) {
         console.log(error);
     }
     finally {
-        mongo.closeDatabaseConnection();
+      mdb.closeDatabaseConnection();
     }
   });
 
-  app.get('/getcode', function retrieveCode(req, res, next) {
-    try {
-        await mongo.connectMongo();
-        let code = await mongo.getCode();
-        res.send({"code": code});
-    } catch (error) {
-        console.log(error);
-    }
-    finally {
-        mongo.closeDatabaseConnection();
-    }
-  });
+  // app.get('/getcode', function retrieveCode(req, res, next) {
+  //   try {
+  //       mdb.connectMongo();
+  //       let foundcode = mdb.getCode();
+  //       res.send({"code": foundcode});
+  //   } catch (error) {
+  //       console.log(error);
+  //   }
+  //   finally {
+  //     mdb.closeDatabaseConnection();
+  //   }
+  // });
 
 
 app.get("/", function (req, res) {
@@ -86,6 +86,7 @@ app.get("/", function (req, res) {
   </html>`
   res.send(html);
 })
+
 
 app.use(express.static('public'));
 
