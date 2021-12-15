@@ -61,7 +61,7 @@ app.get('/connect', function routeHandler(req, res, next) {
     }
   });
 
-  app.get('/connect', function retrieveCode(req, res, next) {
+  app.get('/getcode', function retrieveCode(req, res, next) {
  
     try {
         await connectMongo();
@@ -71,127 +71,6 @@ app.get('/connect', function routeHandler(req, res, next) {
     }
   res.send({"code": code});
   });
-
-  
-/*
-
-/*function refreshAccessToken() {
-    refresh_token = localStorage.getItem("refresh_token");
-    let body = "grant_type=refresh_token";
-    body += "&refresh_token=" + refresh_token;
-    body += "&client_id=" + client_id;
-    callAuthorizationApi(body);
-}
-
-
-
-function handleApiResponse() {
-    if (this.status == 200) {
-        console.log(this.responseText);
-        setTimeout(currentlyPlaying, 2000);
-    } else if (this.status == 204) {
-        setTimeout(currentlyPlaying, 2000);
-    } else if (this.status == 401) {
-        refreshAccessToken();
-    } else {
-        console.log(this.responseText);
-    }
-}
-
-function newRelease() {
-    var x = Math.floor(Math.random() * 20);
-    const RELEASE = `https://api.spotify.com/v1/browse/new-releases?country=BE&limit=5&offset=${x}`;
-    callApi("GET", RELEASE, null, newRealeaseResponse);
-}
-
-function currentlyPlaying() {
-    callApi("GET", PLAYER, null, handleCurrentlyPlayingResponse);
-
-}
-
-function userInformation() {
-    callApi("GET", PROFILE, null, userResponse);
-}
-
-function userResponse() {
-    var data = JSON.parse(this.responseText);
-    const time = new Date().getHours();
-    if (data != null) {
-        document.getElementById("username").innerHTML = data.display_name;
-        document.getElementById("userpicture").src = data.images[0].url;
-
-        if (time < 12) {
-            document.getElementById("daytime").innerHTML = "Good morning, ";
-        } else if (time < 18) {
-            document.getElementById("daytime").innerHTML = "Good afternoon, ";
-        } else {
-            document.getElementById("daytime").innerHTML = "Good evening, ";
-        }
-    } else if (this.status == 401) {
-        refreshAccessToken();
-    }
-}
-
-
-function handleCurrentlyPlayingResponse() {
-    var data = JSON.parse(this.responseText);
-    console.log(data);
-    if (this.status == 200) {
-        if (data.item != null) {
-            document.getElementById("imgcurrent").src = data.item.album.images[0].url;
-            document.getElementById("artistcurrent").innerHTML = data.item.artists[0].name;
-            document.getElementById("songcurrent").innerHTML = data.item.name;
-            //setTimeout(currentlyPlaying, 1000); 
-        }
-    } else if (this.status == 401) {
-        refreshAccessToken();
-    }
-}
-
-
-function newRealeaseResponse() {
-    var data = JSON.parse(this.responseText);
-    console.log(data);
-    if (data.albums != null) {
-        for (let i = 0; i < 5; i++) {
-            document.getElementById("release").insertAdjacentHTML('afterbegin', `
-            <a href="${data.albums.items[i].external_urls.spotify}"">
-            <div>
-            <img src="${data.albums.items[i].images[0].url}" alt="cover">
-            <h3>${data.albums.items[i].artists[0].name}</h3>
-            <p>${data.albums.items[i].name}</p>
-            </div>
-            </a>`);
-        }
-    } else if (this.status == 401) {
-        refreshAccessToken();
-    }
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
