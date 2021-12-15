@@ -17,11 +17,8 @@ const CURRENTLYPLAYING = "https://api.spotify.com/v1/me/player/currently-playing
 const PROFILE = "https://api.spotify.com/v1/me";
 const CHOICES = [];
 
-
-
 // Avoid any CORS error :'(
 app.use(cors());
-
 
 app.get('/connect', function routeHandler(req, res, next) {
     var scopes = ['user-read-private', 'user-read-email'],
@@ -38,7 +35,6 @@ app.get('/connect', function routeHandler(req, res, next) {
   res.send({"data": authorizeURL});
   });
 
-  
   // app.post('/getcode', function getCode(req, res, next) {
 
   //   console.log("hello");
