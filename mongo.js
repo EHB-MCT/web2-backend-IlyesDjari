@@ -11,19 +11,15 @@ const client = new mdb.MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-
-
     async function connectMongo() {
     await client.connect();
     console.log("Successfully connected to database!")
     }
-
     async function getCode() {
         const findcode = mdb.code.find({});
         console.log('User code is =>', findcode);
         return findcode;
     }
-
     // async function addCode(code) {
     //     const addcode = code.insertOne(addcode);
     //     console.log('Added code for the user =>', addcode);
