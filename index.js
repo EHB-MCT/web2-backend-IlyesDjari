@@ -38,6 +38,8 @@ app.get('/connect', (req, res, next) => {
 
   app.post('/getcode', async (req, res, next) => {
 
+    console.log(req.body);
+
     if(!req.body.code){
       res.status(400).send('Bad request: missing code');
       return;
