@@ -39,7 +39,7 @@ app.get('/connect', (req, res, next) => {
   app.post('/getcode', async (req, res, next) => {
 
     if (!req.body) {
-      res.status(400).send('Bad request: boardgame info missing', req.body);
+      res.status(400).send(req.body);
       return;
   }
     try {
