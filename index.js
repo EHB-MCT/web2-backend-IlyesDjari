@@ -38,8 +38,8 @@ app.get('/connect', (req, res, next) => {
 
   app.post('/getcode', async (req, res, next) => {
 
-    if (!req.body.code) {
-      res.status(400).send('Bad request: boardgame info missing');
+    if (!req.body) {
+      res.status(400).send('Bad request: boardgame info missing', req.body);
       return;
   }
     try {
