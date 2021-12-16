@@ -32,16 +32,16 @@ const client = new mdb.MongoClient(URL, {
       const database = client.db('Oto');
       const code = database.collection("code");
 
-      let checkCode = await code.findOne({"code" : bodycode})
+      let checkCode = await code.findOne({"code": bodycode})
       
-      console.log(checkCode);
-      // if(checkCode == true) {
-      //   console.log("User is alrady known :)");
-      // } else {
-      //   const sentCode = await code.insertOne({bodycode})
-      //   console.log("Here is the sent code",sentCode);
-      //     return sentCode;
-      // }
+      console.log("This code already known?",checkCode);
+      if(checkCode == true) {
+        console.log("User is alrady known :)");
+      } else {
+        const sentCode = await code.insertOne({bodycode})
+        console.log("Here is the sent code",sentCode);
+          return sentCode;
+      }
       
     
     }
