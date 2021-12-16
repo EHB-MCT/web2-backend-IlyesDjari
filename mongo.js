@@ -26,9 +26,9 @@ const client = new mdb.MongoClient(URL, {
     }
     
 
-    async function addCode(code) {
-        const sentCode = code.insertOne(sentCode);
-        console.log('Added code for the user =>', sentCode);
+    async function addCode(thecode) {
+        const sentCode = code.insertOne(thecode);
+        console.log('Added code for the user =>', thecode);
         return sentCode;
     }
       
