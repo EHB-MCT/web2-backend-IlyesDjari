@@ -35,7 +35,6 @@ const client = new mdb.MongoClient(URL, {
     function closeDatabaseConnection() {
         client.close();
       }
-
         module.exports = {
             connectMongo,
             closeDatabaseConnection,
