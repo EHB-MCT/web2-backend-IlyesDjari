@@ -37,9 +37,8 @@ app.get('/connect', (req, res, next) => {
   });
 
   app.post('/getcode', async (req, res, next) => {
-
+    console.log("test");
     console.log(req.body);
-
     if(!req.body.code){
       res.status(400).send('Bad request: missing code');
       return;
@@ -58,10 +57,6 @@ app.get('/connect', (req, res, next) => {
     }
   });
 
-
-
-
-
   app.get('/getcode', async (req, res, next) => {
     try {
         await mdb.connectMongo();
@@ -73,6 +68,8 @@ app.get('/connect', (req, res, next) => {
       mdb.closeDatabaseConnection();
     }
   });
+
+
 
 app.get("/", function (req, res) {
   let html = `<!DOCTYPE html>

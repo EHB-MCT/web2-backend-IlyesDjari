@@ -27,10 +27,11 @@ const client = new mdb.MongoClient(URL, {
     
 
     async function addCode(body) {
-
-      const sentCode = await db.collection("code").insertOne(
+      const db = client.db('Oto');
+      const code = db.collection("code");
+      const sentCode = await code.insertOne(
         {
-        _id: mongodb.ObjectId()
+        _id: mdb.ObjectId()
     }, 
         {
         code: {
