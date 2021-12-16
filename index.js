@@ -21,7 +21,7 @@ const CHOICES = [];
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/connect', (req, res, next) => {
+app.get('/connect', async (req, res, next) => {
     var scopes = ['user-read-private', 'user-read-email'],
     redirectUri = 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html',
     clientId = "75d6012515364a608ebbf7ec5113308c";
@@ -34,6 +34,45 @@ app.get('/connect', (req, res, next) => {
   var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
   res.send({"data": authorizeURL});
 
+
+  var credentials = {
+    clientId: '75d6012515364a608ebbf7ec5113308c',
+    clientSecret: 'e9069eeeb800474394cbe578f1a93c67',
+    redirectUri: 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html'
+  };
+  
+  var spotifyApi = new SpotifyWebApi(credentials);
+   await mdb.connectMongo();
+  let lastcode = await mdb.lastCode();
+  let tokenExpirationEpoch;
+  console.log(lastcode);
+
+ 
+  spotifyApi.authorizationCodeGrant(lastcode).then(
+    function(data) {
+      // Set the access token and refresh token
+      spotifyApi.setAccessToken(data.body['access_token']);
+      spotifyApi.setRefreshToken(data.body['refresh_token']);
+  
+      // Save the amount of seconds until the access token expired
+      tokenExpirationEpoch =
+        new Date().getTime() / 1000 + data.body['expires_in'];
+      console.log(
+        'Retrieved token. It expires in ' +
+          Math.floor(tokenExpirationEpoch - new Date().getTime() / 1000) +
+          ' seconds!'
+      );
+    },
+    function(err) {
+      console.log(
+        'Something went wrong when retrieving the access token!',
+        err.message
+      );
+    }
+  );
+
+  mdb.closeDatabaseConnection();
+  
   });
 
 
@@ -41,16 +80,34 @@ app.get('/connect', (req, res, next) => {
 
 
 
-  app.get("/releases", function (req, res) {
-    spotifyApi.getNewReleases({ limit : 6, offset: 0, country: 'BE' })
-  .then(function(data) {
+  app.get("/releases", async (req, res, next) => {
+
+    var credentials = {
+      clientId: '75d6012515364a608ebbf7ec5113308c',
+      clientSecret: 'e9069eeeb800474394cbe578f1a93c67',
+      redirectUri: 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html'
+    };
+    
+    var spotifyApi = new SpotifyWebApi(credentials);
+     await mdb.connectMongo();
+    let lastcode = await mdb.lastCode();
+    console.log(lastcode);
+  
+   
+    spotifyApi.authorizationCodeGrant(lastcode).then(
+      function(data) {
+        // Set the access token and refresh token
+        spotifyApi.setAccessToken(data.body['access_token']);
+        return spotifyApi.getNewReleases({ limit : 6, offset: 0, country: 'BE' })
+      .then(function(data) {
     console.log(data.body);
     res.send(data.body);
-      done();
     }, function(err) {
        console.log("Something went wrong!", err);
     });
-  })
+      }
+    );
+  });
   
 
 
@@ -88,44 +145,7 @@ app.get('/connect', (req, res, next) => {
         await mdb.connectMongo();
         let searchCode = await mdb.getCode();
         res.status(200).json(searchCode);
-
-        var credentials = {
-          clientId: '75d6012515364a608ebbf7ec5113308c',
-          clientSecret: 'e9069eeeb800474394cbe578f1a93c67',
-          redirectUri: 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html'
-        };
-        
-        var spotifyApi = new SpotifyWebApi(credentials);
-        let lastcode = await mdb.lastCode();
-
-       
-  spotifyApi.authorizationCodeGrant(lastcode).then(
-    function(data) {
-      console.log('The token expires in ' + data.body['expires_in']);
-      console.log('The access token is ' + data.body['access_token']);
-      console.log('The refresh token is ' + data.body['refresh_token']);
   
-      // Set the access token on the API object to use it in later calls
-      spotifyApi.setAccessToken(data.body['access_token']);
-      spotifyApi.setRefreshToken(data.body['refresh_token']);
-    },
-    function(err) {
-      console.log('Something went wrong!', err);
-    }
-  );
-
-  spotifyApi.refreshAccessToken().then(
-    function(data) {
-      console.log('The access token has been refreshed!');
-      // Save the access token so that it's used in future calls
-      spotifyApi.setAccessToken(data.body['access_token']);
-    },
-    function(err) {
-      console.log('Could not refresh access token', err);
-    }
-  );
-
-
     } catch (error) {
         console.log(error);
     } finally {
