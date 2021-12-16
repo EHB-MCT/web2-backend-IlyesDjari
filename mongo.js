@@ -39,6 +39,6 @@ const client = new mdb.MongoClient(uri, {
         module.exports = {
             connectMongo,
             closeDatabaseConnection,
-            addCode,
+            // addCode,
             getCode
           };
