@@ -32,7 +32,7 @@ const client = new mdb.MongoClient(URL, {
       const database = client.db('Oto');
       const code = database.collection("code");
 
-      let check = code.findOne({"code" : bodycode})
+      let check = await code.findOne({"code" : bodycode})
       console.log(check);
       const sentCode = await code.insertOne({bodycode})
       console.log("Here is the sent code",sentCode);
