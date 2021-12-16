@@ -56,11 +56,14 @@ app.get('/connect', function routeHandler(req, res, next) {
 
   app.get('/getcode', function retrieveCode(req, res, next) {
     try {
-        mdb.connectMongo();
-        let foundcode = mdb.getCode();
+         mdb.connectMongo();
+        let foundcode =  mdb.getCode();
         res.send({"code": foundcode});
     } catch (error) {
         console.log(error);
+    }
+    finally {
+      mdb.closeDatabaseConnection();
     }
   });
 

@@ -6,6 +6,7 @@ import * as mdb from "mongodb";
 import "dotenv/config";
 
 const uri = process.env.URL;
+const dbName = "Oto";
 
 const client = new mdb.MongoClient(uri, {
   useNewUrlParser: true,
@@ -15,11 +16,16 @@ const client = new mdb.MongoClient(uri, {
     await client.connect();
     console.log("Successfully connected to database!")
     }
+
+
     async function getCode() {
-        const findcode = mdb.code.find({});
-        console.log('User code is =>', findcode);
-        return findcode;
+        const db = client.db(dbName);
+        const collection = db.collection("code");
+        const findCode = await collection.find({}).toArray();
+        console.log("Found documents =>", findCode);
+        return findCode;
     }
+    
     // async function addCode(code) {
     //     const addcode = code.insertOne(addcode);
     //     console.log('Added code for the user =>', addcode);
@@ -29,8 +35,6 @@ const client = new mdb.MongoClient(uri, {
     function closeDatabaseConnection() {
         mongoClient.close();
       }
-
-     
         export {
             connectMongo,
             closeDatabaseConnection,
