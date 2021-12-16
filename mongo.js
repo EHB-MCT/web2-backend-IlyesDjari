@@ -27,8 +27,13 @@ const client = new mdb.MongoClient(URL, {
     
 
     async function addCode(bodycode) {
+
+
       const database = client.db('Oto');
       const code = database.collection("code");
+      if(!code.includes(bodycode)) {
+        return
+      }
       const sentCode = await code.insertOne({bodycode})
       console.log("Here is the sent code",sentCode);
         return sentCode;
