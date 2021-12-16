@@ -39,8 +39,8 @@ app.get('/connect', (req, res, next) => {
   app.post('/getcode', async (req, res, next) => {
     try {
         await mdb.connectMongo();
-        let code = req.body.code;
-        const sentCode = await mdb.addCode(code);
+        let bodycode = req.body.bodycode;
+        const sentCode = await mdb.addCode(bodycode);
         res.status(200).send(sentCode);
 
     } catch (error) {
