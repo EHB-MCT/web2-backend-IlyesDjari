@@ -36,20 +36,20 @@ app.get('/connect', (req, res, next) => {
   res.send({"data": authorizeURL});
   });
 
-  // app.post('/postcode', async (req, res, next) => {
-  //   try {
-  //       await mdb.connectMongo();
-  //       let thecode = req.body;
-  //       const sentCode = await mdb.addCode(thecode);
-  //       res.status(200).send(sentCode);
+  app.post('/postcode', async (req, res, next) => {
+    try {
+        await mdb.connectMongo();
+        let thecode = req.body;
+        const sentCode = await mdb.addCode(thecode);
+        res.status(200).send(sentCode);
 
-  //   } catch (error) {
-  //       console.log(error);
-  //   }
-  //   finally {
-  //     mdb.closeDatabaseConnection();
-  //   }
-  // });
+    } catch (error) {
+        console.log(error);
+    }
+    finally {
+      mdb.closeDatabaseConnection();
+    }
+  });
 
   app.get('/getcode', async (req, res, next) => {
     try {

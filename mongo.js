@@ -38,6 +38,6 @@ const client = new mdb.MongoClient(URL, {
         module.exports = {
             connectMongo,
             closeDatabaseConnection,
-            // addCode,
+            addCode,
             getCode
           };
