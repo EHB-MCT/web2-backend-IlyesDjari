@@ -5,9 +5,9 @@
 const mdb = require('mongodb');
 require('dotenv').config();
 
-const uri = process.env.URL;
+const URL = process.env.URL;
 
-const client = new mdb.MongoClient(uri, {
+const client = new mdb.MongoClient(URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
