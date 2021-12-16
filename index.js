@@ -5,7 +5,6 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const res = require('express/lib/response');
 const app = express();
 const SpotifyWebApi = require('spotify-web-api-node')
 const mdb = require('./mongo.js');
