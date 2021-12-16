@@ -36,7 +36,7 @@ app.get('/connect', (req, res, next) => {
   res.send({"data": authorizeURL});
   });
 
-  app.post('/postcode', async (req, res, next) => {
+  app.post('/getcode', async (req, res, next) => {
     try {
         await mdb.connectMongo();
         let thecode = req.body;
