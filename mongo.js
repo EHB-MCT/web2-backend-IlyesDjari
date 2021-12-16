@@ -34,7 +34,7 @@ const client = new mdb.MongoClient(URL, {
     }, 
         {
         code: {
-            code: bodycode
+            bodycode
         }
     });
         return sentCode;
