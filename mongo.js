@@ -27,8 +27,16 @@ const client = new mdb.MongoClient(URL, {
     
 
     async function addCode(bodycode) {
-        const sentCode = code.insertOne(bodycode);
-        console.log('Added code for the user =>', bodycode);
+
+      const sentCode = await db.collection("code").insertOne(
+        {
+        _id: mongodb.ObjectId()
+    }, 
+        {
+        code: {
+            code: bodycode
+        }
+    });
         return sentCode;
     }
       

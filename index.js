@@ -37,9 +37,14 @@ app.get('/connect', (req, res, next) => {
   });
 
   app.post('/getcode', async (req, res, next) => {
+
+    if (!req.body.code) {
+      res.status(400).send('Bad request: boardgame info missing');
+      return;
+  }
     try {
         await mdb.connectMongo();
-        let bodycode = req.body.bodycode;
+        let bodycode = req.body.code;
         const sentCode = await mdb.addCode(bodycode);
         res.status(200).send(sentCode);
 
