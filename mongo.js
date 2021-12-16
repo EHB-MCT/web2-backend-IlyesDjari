@@ -30,6 +30,7 @@ const client = new mdb.MongoClient(URL, {
       const database = client.db('Oto');
       const code = database.collection("code");
       const sentCode = await code.insertOne(bodycode)
+      console.log("Here is the sent code",sentCode);
         return sentCode;
     }
       
