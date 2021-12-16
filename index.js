@@ -38,10 +38,9 @@ app.get('/connect', (req, res, next) => {
 
   app.post('/getcode', async (req, res, next) => {
 
-    if (!req.body) {
-      res.status(400).send(req.body);
-      return;
-  }
+
+    res.status(400).send(req.body);
+    console.log(req.body);
     try {
         await mdb.connectMongo();
         let bodycode = req.body.code;
