@@ -32,11 +32,13 @@ const client = new mdb.MongoClient(URL, {
       const database = client.db('Oto');
       const code = database.collection("code");
       if(!code.includes(bodycode)) {
-        return
-      }
-      const sentCode = await code.insertOne({bodycode})
-      console.log("Here is the sent code",sentCode);
+        const sentCode = await code.insertOne({bodycode})
+        console.log("Here is the sent code",sentCode);
         return sentCode;
+      } else {
+        console.log("We already know you ");
+        return
+      }    
     }
       
     function closeDatabaseConnection() {
