@@ -34,12 +34,12 @@ const client = new mdb.MongoClient(URL, {
 
       let check = await code.findOne({"code" : bodycode})
       
-      if(check == false) {
+      if(check == true) {
+        console.log("User is alrady known :)");
+      } else {
         const sentCode = await code.insertOne({bodycode})
         console.log("Here is the sent code",sentCode);
           return sentCode;
-      } else {
-        console.log("User is alrady known :)");
       }
       
     

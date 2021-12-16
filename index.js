@@ -21,6 +21,18 @@ const CHOICES = [];
 app.use(cors());
 app.use(bodyParser.json());
 
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/connect', (req, res, next) => {
     var scopes = ['user-read-private', 'user-read-email'],
     redirectUri = 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html',
@@ -30,11 +42,64 @@ app.get('/connect', (req, res, next) => {
     redirectUri: redirectUri,
     clientId: clientId
   });
+
+
+
+
+  var credentials = {
+    clientId: '75d6012515364a608ebbf7ec5113308c',
+    clientSecret: 'e9069eeeb800474394cbe578f1a93c67',
+    redirectUri: 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html'
+  };
+  
+  var spotifyApi = new SpotifyWebApi(credentials);
   // Create the authorization URL for the User
   var authorizeURL = spotifyApi.createAuthorizeURL(scopes);
 
-  res.send({"data": authorizeURL});
+
+  var code = 'AQB2y66KR-MChXTiOJQDLASw4BFZwm6sBLGQPdtiIQNOgn_RlG…DNIiHFtQNvgl7ugclBOSZwbdDAZfZMbSZg03OckCOMA3aPuVM';
+// Retrieve an access token and a refresh token
+  spotifyApi.authorizationCodeGrant(code).then(
+  function(data) {
+    console.log('The token expires in ' + data.body['expires_in']);
+    console.log('The access token is ' + data.body['access_token']);
+    console.log('The refresh token is ' + data.body['refresh_token']);
+
+    // Set the access token on the API object to use it in later calls
+    spotifyApi.setAccessToken(data.body['access_token']);
+    spotifyApi.setRefreshToken(data.body['refresh_token']);
+    res.send({"data": authorizeURL},
+    {"token": data.body['expires_in']});
+  },
+  function(err) {
+    console.log('Something went wrong!', err);
+  }
+);
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   app.post('/getcode', async (req, res, next) => {
