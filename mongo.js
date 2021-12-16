@@ -33,10 +33,16 @@ const client = new mdb.MongoClient(URL, {
       const code = database.collection("code");
 
       let check = await code.findOne({"code" : bodycode})
-      console.log(check);
-      const sentCode = await code.insertOne({bodycode})
-      console.log("Here is the sent code",sentCode);
-        return sentCode;
+      
+      if(check == false) {
+        const sentCode = await code.insertOne({bodycode})
+        console.log("Here is the sent code",sentCode);
+          return sentCode;
+      } else {
+        console.log("User is alrady known :)");
+      }
+      
+    
     }
       
     function closeDatabaseConnection() {
