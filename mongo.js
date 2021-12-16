@@ -32,7 +32,7 @@ const client = new mdb.MongoClient(URL, {
       const database = client.db('Oto');
       const code = database.collection("code");
 
-      let checkCode = await code.findOne({"code": bodycode})
+      let checkCode = await code.findOne({"bodycode": bodycode})
       
       console.log("This code already known?",checkCode);
       if(checkCode == true) {
