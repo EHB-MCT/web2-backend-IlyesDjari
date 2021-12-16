@@ -37,7 +37,7 @@ const client = new mdb.MongoClient(URL, {
       console.log("This code already known?",checkCode);
 
 
-      if(checkCode == null) 
+      if(checkCode == null) {
       const sentCode = await code.insertOne({bodycode})
       console.log("Here is the sent code",sentCode);
         return sentCode;
