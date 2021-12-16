@@ -64,7 +64,6 @@ app.get('/connect', (req, res, next) => {
     }
   });
 
-
 app.get("/", function (req, res) {
   let html = `<!DOCTYPE html>
   <html lang="en">
