@@ -44,9 +44,17 @@ const client = new mdb.MongoClient(URL, {
       } else {
         console.log("Already existing code");
       }
-      
-    
     }
+
+    async function lastCode() {
+     
+      const db = client.db('Oto');
+      const code = db.collection("code");
+      const searchCode =  await code.find({}).toArray();
+      var last = searchCode[searchCode.length-1].bodycode;
+     return last;
+    }
+
       
     function closeDatabaseConnection() {
         client.close();
@@ -55,5 +63,6 @@ const client = new mdb.MongoClient(URL, {
             connectMongo,
             closeDatabaseConnection,
             addCode,
-            getCode
+            getCode,
+            lastCode
           };
