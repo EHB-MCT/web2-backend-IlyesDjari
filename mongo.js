@@ -2,16 +2,16 @@
 
 
 /*CONNECTION TO MY MONGODB DATABASE*/
-import * as mdb from "mongodb";
-import "dotenv/config";
+const mdb = require('mongodb');
+require('dotenv').config();
 
 const uri = process.env.URL;
-const dbName = "Oto";
 
 const client = new mdb.MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
     async function connectMongo() {
     await client.connect();
     console.log("Successfully connected to database!")
@@ -19,25 +19,26 @@ const client = new mdb.MongoClient(uri, {
 
 
     async function getCode() {
-        const db = client.db(dbName);
-        const collection = db.collection("code");
-        const findCode = await collection.find({}).toArray();
-        console.log("Found documents =>", findCode);
-        return findCode;
+        const db = client.db('Oto');
+        const code = db.collection("code");
+        const searchCode =  await code.find({}).toArray();
+        return searchCode;
     }
     
-    // async function addCode(code) {
-    //     const addcode = code.insertOne(addcode);
-    //     console.log('Added code for the user =>', addcode);
-    //     return addcode;
-    // }
+
+    async function addCode(code) {
+        const sentCode = code.insertOne(sentCode);
+        console.log('Added code for the user =>', sentCode);
+        return sentCode;
+    }
       
     function closeDatabaseConnection() {
-        mongoClient.close();
+        client.close();
       }
-        export {
+
+        module.exports = {
             connectMongo,
             closeDatabaseConnection,
-            //addCode,
-            getCode,
+            addCode,
+            getCode
           };

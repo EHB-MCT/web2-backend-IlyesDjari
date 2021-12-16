@@ -1,13 +1,14 @@
 "use strict"
 
 
-import "dotenv/config";
-import express from "express";
-import cors from "cors";
-import SpotifyWebApi from "spotify-web-api-node";
-import * as mdb from "./mongo.js";
-
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const res = require('express/lib/response');
 const app = express();
+const SpotifyWebApi = require('spotify-web-api-node')
+const mdb = require('./mongo.js');
 const PORT = process.env.PORT || 8888;
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize";
@@ -19,8 +20,9 @@ const CHOICES = [];
 
 // Avoid any CORS error :'(
 app.use(cors());
+app.use(bodyParser.json());
 
-app.get('/connect', function routeHandler(req, res, next) {
+app.get('/connect', (req, res, next) => {
     var scopes = ['user-read-private', 'user-read-email'],
     redirectUri = 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html',
     clientId = "75d6012515364a608ebbf7ec5113308c";
@@ -35,34 +37,29 @@ app.get('/connect', function routeHandler(req, res, next) {
   res.send({"data": authorizeURL});
   });
 
-  // app.post('/getcode', function getCode(req, res, next) {
-
-  //   console.log("hello");
-  //   try {
-  //       mdb.connectMongo();
-  //       console.log(req.body);
-  //       let thecode = req.body;
-  //       mdb.addCode(thecode);
-  //       console.log(thecode);
-  //       res.status(200).send("Users code has been added to DB");
-
-  //   } catch (error) {
-  //       console.log(error);
-  //   }
-  //   finally {
-  //     mdb.closeDatabaseConnection();
-  //   }
-  // });
-
-  app.get('/getcode', function retrieveCode(req, res, next) {
+  app.post('/postcode', async (req, res, next) => {
     try {
-         mdb.connectMongo();
-        let foundcode =  mdb.getCode();
-        res.send({"code": foundcode});
+        await mdb.connectMongo();
+        let thecode = req.body;
+        const sentCode = await mdb.addCode(thecode);
+        res.status(200).send(sentCode);
+
     } catch (error) {
         console.log(error);
     }
     finally {
+      mdb.closeDatabaseConnection();
+    }
+  });
+
+  app.get('/getcode', async (req, res, next) => {
+    try {
+        await mdb.connectMongo();
+        let searchCode = await mdb.getCode();
+        res.status(200).json(searchCode);
+    } catch (error) {
+        console.log(error);
+    } finally {
       mdb.closeDatabaseConnection();
     }
   });
