@@ -1,156 +1,155 @@
-"use strict"
+"use strict";
 
-
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
-const SpotifyWebApi = require('spotify-web-api-node')
-const mdb = require('./mongo.js');
+const SpotifyWebApi = require("spotify-web-api-node");
+const mdb = require("./mongo.js");
 const PORT = process.env.PORT || 8888;
 
 const AUTHORIZE = "https://accounts.spotify.com/authorize";
 const TOKEN = "https://accounts.spotify.com/api/token";
 const PLAYER = "https://api.spotify.com/v1/me/player";
-const CURRENTLYPLAYING = "https://api.spotify.com/v1/me/player/currently-playing";
+const CURRENTLYPLAYING =
+  "https://api.spotify.com/v1/me/player/currently-playing";
 const PROFILE = "https://api.spotify.com/v1/me";
 const CHOICES = [];
 
+// credentials
+const clientId = "b97dabf87fd34b2b912e3db80022563f";
+const clientSecret = "5e9d4ea772d949078994f10671a1b6d3";
+const redirectUri = "http://localhost:8888/releases";
 
 // Avoid any CORS error :'(
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/connect', async (req, res, next) => {
+let scopes = [
+  "user-read-private",
+  "user-read-email",
+  "playlist-read-private",
+  "playlist-read-collaborative",
+  "user-read-email",
+  "streaming",
+  "user-top-read",
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+  "user-read-recently-played",
+  "user-follow-read",
+];
 
-
-
-  var scopes = ['user-read-private', 'user-read-email'],
-  redirectUri = 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html',
-  clientId = '75d6012515364a608ebbf7ec5113308c',
-  state = 'some-state-of-my-choice';
-
-// Setting credentials can be done in the wrapper's constructor, or using the API object's setters.
-var spotifyApi = new SpotifyWebApi({
-  redirectUri: "http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html",
-  clientId: "75d6012515364a608ebbf7ec5113308c"
+let spotifyApi = new SpotifyWebApi({
+  clientId,
+  clientSecret,
+  redirectUri,
 });
-  // Create the authorization URL for the User
-  var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
-  res.send({"data": authorizeURL});  
-  });
 
+app.get("/connect", (req, res, next) => {
+  let url = spotifyApi.createAuthorizeURL(scopes);
+  res.redirect(url);
+});
 
+app.get("/releases", async (req, res) => {
+  const error = req.query.error;
+  const code = req.query.code;
 
-
-
-
-
-
-
-
-  app.get("/releases", async (req, res, next) => {
-
-
-     await mdb.connectMongo();
-    let authorizationCode = await mdb.lastCode();
-    console.log(authorizationCode);
-  
-    var credentials = {
-      clientId: '75d6012515364a608ebbf7ec5113308c',
-      clientSecret: 'e9069eeeb800474394cbe578f1a93c67',
-      redirectUri: 'http://127.0.0.1:5500/web2-frontend-IlyesDjari/docs/pages/home.html'
-    };
-    
-    var spotifyApi = new SpotifyWebApi(credentials);
-    
-    // The code that's returned as a query parameter to the redirect URI
-    var code = await lastCode();
-    console.log(code);
-    
-    // Retrieve an access token and a refresh token
-    spotifyApi.authorizationCodeGrant(code).then(
-      function(data) {
-        console.log('The token expires in ' + data.body['expires_in']);
-        console.log('The access token is ' + data.body['access_token']);
-        console.log('The refresh token is ' + data.body['refresh_token']);
-    
-        // Set the access token on the API object to use it in later calls
-        spotifyApi.setAccessToken(data.body['access_token']);
-        spotifyApi.setRefreshToken(data.body['refresh_token']);
-      },
-      function(err) {
-        console.log('Something went wrong!', err);
-      }
-    );
-
-    spotifyApi.refreshAccessToken().then(
-      function(data) {
-        console.log('The access token has been refreshed!');
-    
-        // Save the access token so that it's used in future calls
-        spotifyApi.setAccessToken(data.body['access_token']);
-      },
-      function(err) {
-        console.log('Could not refresh access token', err);
-      }
-    );
-
-  });
-  
-
-
-
-
-
-
-
-  app.post('/getcode', async (req, res, next) => {
-
-    if(!req.body.code){
-      res.status(400).send('Bad request: missing code');
-      return;
+  if (error) {
+    console.error("Callback Error:", error);
+    res.send(`Callback Error: ${error}`);
+    return;
   }
-    try {
-        await mdb.connectMongo();
-        let bodycode = req.body.code;
-        const sentCode = await mdb.addCode(bodycode);
-        res.status(200).send(sentCode);
 
-    } catch (error) {
-        console.log(error);
-    }
-    finally {
-      mdb.closeDatabaseConnection();
-    }
+  spotifyApi
+    .authorizationCodeGrant(code)
+    .then(async (data) => {
+      const access_token = data.body["access_token"];
+      const refresh_token = data.body["refresh_token"];
+      const expires_in = data.body["expires_in"];
+
+      spotifyApi.setAccessToken(access_token);
+      spotifyApi.setRefreshToken(refresh_token);
+
+      console.log("access_token:", access_token);
+      console.log("refresh_token:", refresh_token);
+
+      console.log(
+        `Sucessfully retreived access token. Expires in ${expires_in} s.`
+      );
+      res.send("Success! You can now close the window.");
+
+      setInterval(async () => {
+        const data = await spotifyApi.refreshAccessToken();
+        const access_token = data.body["access_token"];
+        spotifyApi.setAccessToken(access_token);
+      }, (expires_in / 2) * 1000);
+    })
+    .catch((error) => {
+      console.error("Error getting Tokens:", error);
+      res.send(`Error getting Tokens: ${error}`);
+    });
+});
+
+app.get("/getlist/:username", async (req, res) => {
+  let name = req.params.username;
+  let list = await spotifyApi.getUserPlaylists(name);
+  res.send(list);
+});
+app.get("/currentsong", async (req, res) => {
+  const song = await spotifyApi.getMyCurrentPlayingTrack();
+  res.send(song);
+});
+app.get("/featured", async (req, res) => {
+  const featured = await spotifyApi.getFeaturedPlaylists({
+    limit: 5,
+    offset: 1,
+    country: "US",
   });
-
-
-
-
-
-  app.get('/getcode', async (req, res, next) => {
-    try {
-        await mdb.connectMongo();
-        let searchCode = await mdb.getCode();
-        res.status(200).json(searchCode);
-
-    } catch (error) {
-        console.log(error);
-    } finally {
-      mdb.closeDatabaseConnection();
-    }
+  res.send(featured);
+});
+app.get("/newreleases", async (req, res) => {
+  let releases = await spotifyApi.getNewReleases({
+    limit: 5,
+    offset: 0,
+    country: "US",
+    market: "US",
   });
+  res.send(releases);
+});
 
+app.post("/getcode", async (req, res, next) => {
+  if (!req.body.code) {
+    res.status(400).send("Bad request: missing code");
+    return;
+  }
+  try {
+    await mdb.connectMongo();
+    let bodycode = req.body.code;
+    const sentCode = await mdb.addCode(bodycode);
+    res.status(200).send(sentCode);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mdb.closeDatabaseConnection();
+  }
+});
 
+app.get("/getcode", async (req, res, next) => {
+  try {
+    await mdb.connectMongo();
+    let searchCode = await mdb.getCode();
+    res.status(200).json(searchCode);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mdb.closeDatabaseConnection();
+  }
+});
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 console.log(PORT);
 
-app.listen(PORT, () =>
-  console.log(
-    'HTTP Server up.'
-  )
-);
+app.listen(PORT, () => console.log("HTTP Server up."));
