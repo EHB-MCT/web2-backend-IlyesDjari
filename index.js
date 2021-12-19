@@ -9,14 +9,6 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const mdb = require("./mongo.js");
 const PORT = process.env.PORT || 8888;
 
-const AUTHORIZE = "https://accounts.spotify.com/authorize";
-const TOKEN = "https://accounts.spotify.com/api/token";
-const PLAYER = "https://api.spotify.com/v1/me/player";
-const CURRENTLYPLAYING =
-  "https://api.spotify.com/v1/me/player/currently-playing";
-const PROFILE = "https://api.spotify.com/v1/me";
-const CHOICES = [];
-
 // credentials
 const clientId = "b97dabf87fd34b2b912e3db80022563f";
 const clientSecret = "5e9d4ea772d949078994f10671a1b6d3";
