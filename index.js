@@ -10,8 +10,8 @@ const mdb = require("./mongo.js");
 const PORT = process.env.PORT || 8888;
 
 // credentials
-const clientId = "b97dabf87fd34b2b912e3db80022563f";
-const clientSecret = "5e9d4ea772d949078994f10671a1b6d3";
+const clientId = "75d6012515364a608ebbf7ec5113308c";
+const clientSecret = "e9069eeeb800474394cbe578f1a93c67";
 const redirectUri = "http://localhost:8888/releases";
 
 // Avoid any CORS error :'(
@@ -93,12 +93,15 @@ app.get("/currentsong", async (req, res) => {
   const song = await spotifyApi.getMyCurrentPlayingTrack();
   res.send(song);
 });
-app.get("/featured", async (req, res) => {
-  const featured = await spotifyApi.getFeaturedPlaylists({
-    limit: 5,
-    offset: 1,
-    country: "US",
-  });
+app.post("/featured", async (req, res) => {
+  const obj = req.body;
+  console.log("featured called ", obj);
+  // {
+  //   limit: 5,
+  //   offset: 1,
+  //   country: "US",
+  // }
+  const featured = await spotifyApi.getFeaturedPlaylists(obj);
   res.send(featured);
 });
 app.get("/newreleases", async (req, res) => {
