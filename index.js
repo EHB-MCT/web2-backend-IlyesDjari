@@ -88,10 +88,9 @@ app.get("/releases", async (req, res) => {
     });
 });
 
-app.get("/getlist/:username", async (req, res) => {
-  let name = req.params.username;
-  let list = await spotifyApi.getUserPlaylists(name);
-  res.send(list);
+app.get("/getuser", async (req, res) => {
+  let user = await spotifyApi.getMe();
+  res.send(user);
 });
 
 app.get("/currentsong", async (req, res) => {
