@@ -37,9 +37,9 @@ const client = new mdb.MongoClient(URL, {
     async function lastCode() {
      
       const db = client.db('Oto');
-      const code = db.collection("code");
+      const code = db.collection("playlists");
       const searchCode =  await code.find({}).toArray();
-      var last = searchCode[searchCode.length-1].bodycode;
+      var last = searchCode[searchCode.length-1];
      return last;
     }
 

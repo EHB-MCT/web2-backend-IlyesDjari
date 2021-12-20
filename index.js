@@ -88,7 +88,7 @@ app.get("/releases", async (req, res) => {
 });
 
 app.get("/getuser", async (req, res) => {
-  let user = await spotifyApi.getMe();
+  const user = await spotifyApi.getMe();
   res.send(user);
 });
 
@@ -99,9 +99,7 @@ app.get("/currentsong", async (req, res) => {
 
 app.post("/featured", async (req, res) => {
   let obj = await req.body
-  console.log("featured called ", obj);
   const featured = await spotifyApi.getRecommendations(obj);
-  console.log(featured.body.tracks);
   try {
     await mdb.connectMongo();
     let bodycode = featured.body.tracks;
@@ -116,9 +114,16 @@ app.post("/featured", async (req, res) => {
 
 
 
-app.get("/featured", async (req, res) => {
-  
- 
+app.get("/lastfeatured", async (req, res) => {
+  try {
+    await mdb.connectMongo();
+    let searchCode = await mdb.getCode();
+    res.status(200).json(searchCode);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mdb.closeDatabaseConnection();
+  }
 });
 
 
