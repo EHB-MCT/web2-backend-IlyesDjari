@@ -98,7 +98,15 @@ app.get("/currentsong", async (req, res) => {
 });
 
 app.get("/allgenerated", async (req, res) => {
-  
+  try {
+    await mdb.connectMongo();
+    const sentCode = await mdb.getCode();
+    res.status(200).send(sentCode);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mdb.closeDatabaseConnection();
+  }
 });
 
 
