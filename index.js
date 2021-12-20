@@ -102,7 +102,7 @@ app.get("/allgenerated", async (req, res) => {
     await mdb.connectMongo();
     let searchCode = await mdb.getCode();
     const alllists = []
-    for(let i = 0 ; i<6 ; i++) {
+    for(let i=0;i<6;i++) {
       spotifyApi.getPlaylist(searchCode.bodyid[i])
       .then(function(data) {
         console.log('Some information about this playlist', data.body);
