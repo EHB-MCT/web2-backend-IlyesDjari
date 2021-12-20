@@ -108,8 +108,7 @@ app.get("/allgenerated", async (req, res) => {
       alllists.push(data)
     }, function(err) {
       console.log('Something went wrong!', err);
-    }));
-;
+    }));;
   } catch (error) {
     console.log(error);
   } finally {
