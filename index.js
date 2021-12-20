@@ -118,8 +118,8 @@ app.get("/newreleases", async (req, res) => {
   res.send(releases);
 });
 
+
+
 app.use(express.static("public"));
-
 console.log(PORT);
-
 app.listen(PORT, () => console.log("HTTP Server up."));
