@@ -132,6 +132,7 @@ app.post("/addtoplaylist", async (req, res) => {
   console.log(obj.songs);
   await spotifyApi.addTracksToPlaylist(`${obj.playlistid}`, obj.songs)
   .then(function(data) {
+    res.status(200).send(data);
   }, function(err) {
     console.log('Something went wrong!', err);
   });
@@ -140,7 +141,6 @@ app.post("/addtoplaylist", async (req, res) => {
     await mdb.connectMongo();
     let bodyid = obj.playlistid;
     const sentCode = await mdb.addId(bodyid);
-    res.status(200).send(sentCode);
   } catch (error) {
     console.log(error);
   } finally {
