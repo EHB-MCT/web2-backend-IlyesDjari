@@ -105,7 +105,7 @@ app.post("/featured", async (req, res) => {
   //   limit: 5,
   //   offset: 1,
   //   country: "US",
-  // }
+
   const featured = spotifyApi.getRecommendations(ob);
   res.send(featured);
 });
