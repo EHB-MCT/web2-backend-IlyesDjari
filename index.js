@@ -102,6 +102,7 @@ app.post("/featured", async (req, res) => {
   
   console.log("featured called ", obj);
   const featured = await spotifyApi.getRecommendations(obj);
+  console.log(featured);
   res.send(featured);
 });
 
