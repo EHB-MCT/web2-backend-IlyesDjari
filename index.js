@@ -26,6 +26,8 @@ let scopes = [
   "user-read-email",
   "playlist-read-private",
   "playlist-read-collaborative",
+  "playlist-modify-public",
+  "playlist-modify-private",
   "user-read-email",
   "streaming",
   "user-top-read",
@@ -97,6 +99,13 @@ app.get("/currentsong", async (req, res) => {
   res.send(song);
 });
 
+app.post("/create", async (req, res) => {
+  let obj = await req.body
+
+
+
+});
+
 app.post("/featured", async (req, res) => {
   let obj = await req.body
   const featured = await spotifyApi.getRecommendations(obj);
@@ -110,6 +119,13 @@ app.post("/featured", async (req, res) => {
   } finally {
     mdb.closeDatabaseConnection();
   }
+});
+
+
+app.post("/create", async (req, res) => {
+  let obj = await req.body
+  const playlistcreate = await spotifyApi.createPlaylist(obj);
+  res.send(playlistcreate)
 });
 
 
