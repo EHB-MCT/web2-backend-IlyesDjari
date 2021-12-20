@@ -104,18 +104,19 @@ app.get("/allgenerated", async (req, res) => {
     let alllists = [];
     searchCode.forEach((user) => spotifyApi.getPlaylist(user.bodyid)
     .then(function(data) {
-      console.log('Some information about this playlist', data.body);
-      alllists.push(data.body)
+      console.log('Some information about this playlist', data);
+      alllists.push(data)
     }, function(err) {
       console.log('Something went wrong!', err);
     }));
-      res.send(alllists);
 ;
   } catch (error) {
     console.log(error);
   } finally {
     mdb.closeDatabaseConnection();
   }
+
+  res.send(alllists);
 });
 
 
