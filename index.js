@@ -25,7 +25,6 @@ let scopes = [
   "user-read-private",
   "user-read-email",
   "playlist-read-private",
-  "playlist-read-public",
   "playlist-read-collaborative",
   "playlist-modify-public",
   "playlist-modify-private",
@@ -119,7 +118,7 @@ app.post("/featured", async (req, res) => {
 app.post("/create", async (req, res) => {
   let obj = await req.body
   console.log(obj);
-  const playlistcreate = await spotifyApi.createPlaylist(`${obj.name}`, { 'description': 'This playlist is generated with OTO', 'public': true })
+  await spotifyApi.createPlaylist(`${obj.name}`, { 'description': 'This playlist is generated with OTO', 'public': false })
   .then(function(data) {
    res.send(data)
   }, function(err) {
@@ -130,7 +129,7 @@ app.post("/create", async (req, res) => {
 
 app.post("/addtoplaylist", async (req, res) => {
   let obj = await req.body
-  const add = await spotifyApi.addTracksToPlaylist(`${obj.playlistid}`, obj.songs)
+  await spotifyApi.addTracksToPlaylist(`${obj.playlistid}`, obj.songs)
   .then(function(data) {
   }, function(err) {
     console.log('Something went wrong!', err);
@@ -154,7 +153,7 @@ app.get("/lastplaylist", async (req, res) => {
       let searchCode = await mdb.lastId();
 
       console.log(searchCode);
-      const last = spotifyApi.getPlaylist(searchCode.bodyid)
+      spotifyApi.getPlaylist(searchCode.bodyid)
   .then(function(data) {
     console.log('Some information about this playlist', data.body);
   }, function(err) {
