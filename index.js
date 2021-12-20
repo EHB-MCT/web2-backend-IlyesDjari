@@ -101,10 +101,11 @@ app.get("/allgenerated", async (req, res) => {
   try {
     await mdb.connectMongo();
     const sentCode = await mdb.getCode();
+
     spotifyApi.getPlaylist(sentCode.bodyid)
   .then(function(data) {
-    console.log('Some information about this playlist', data.body);
-    res.send(data.body)
+    console.log('Some information about this playlist', data);
+    res.send(data)
   }, function(err) {
     console.log('Something went wrong!', err);
   });
