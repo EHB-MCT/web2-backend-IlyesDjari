@@ -105,7 +105,7 @@ app.get("/allgenerated", async (req, res) => {
     
     searchCode.forEach(mobile => {
       for (let key in mobile) {
-          console.log(`${mobile[key]}`);
+          console.log(`${key}`);
       }
   });
       // spotifyApi.getPlaylist(searchCode.bodyid)
