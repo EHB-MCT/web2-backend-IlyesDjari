@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8888;
 // credentials
 const clientId = "75d6012515364a608ebbf7ec5113308c";
 const clientSecret = "e9069eeeb800474394cbe578f1a93c67";
-const redirectUri = "http://localhost:8888/releases";
+const redirectUri = "https://otomusic.herokuapp.com/releases";
 
 // Avoid any CORS error :'(
 app.use(cors());
@@ -23,6 +23,12 @@ let spotifyApi = new SpotifyWebApi({
   clientSecret,
   redirectUri,
 });
+
+app.get("/", (req,res,next) => {
+res.send("Hello World")
+
+
+})
 
 app.get("/connect", (req, res, next) => {
   let url = spotifyApi.createAuthorizeURL(scopes);
