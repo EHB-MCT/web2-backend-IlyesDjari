@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 app.get("/", (req,res,next) => {
 res.send("World")});
 
-
 let scopes = [
   "user-read-private",
   "user-read-email",
