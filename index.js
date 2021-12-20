@@ -132,7 +132,6 @@ app.post("/addtoplaylist", async (req, res) => {
 
   const add = await spotifyApi.addTracksToPlaylist(`${obj.playlistid}`, obj.songs)
   .then(function(data) {
-    res.send(data)
   }, function(err) {
     console.log('Something went wrong!', err);
   });
