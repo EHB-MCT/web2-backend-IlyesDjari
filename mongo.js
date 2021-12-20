@@ -25,7 +25,6 @@ const client = new mdb.MongoClient(URL, {
         return searchCode;
     }
     
-
     async function addCode(bodycode) {
       const database = client.db('Oto');
       const playlists = database.collection("playlists");
