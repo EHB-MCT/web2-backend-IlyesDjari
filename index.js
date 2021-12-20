@@ -106,7 +106,7 @@ app.post("/featured", async (req, res) => {
   //   offset: 1,
   //   country: "US",
   // }
-  const featured = await spotifyApi.getFeaturedPlaylists(obj);
+  const featured = spotifyApi.getRecommendations(ob);
   res.send(featured);
 });
 app.get("/newreleases", async (req, res) => {
