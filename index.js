@@ -25,6 +25,7 @@ let scopes = [
   "user-read-private",
   "user-read-email",
   "playlist-read-private",
+  "playlist-read-public",
   "playlist-read-collaborative",
   "playlist-modify-public",
   "playlist-modify-private",
@@ -151,6 +152,7 @@ app.get("/lastplaylist", async (req, res) => {
   try {
       await mdb.connectMongo();
       let searchCode = await mdb.lastId();
+
       console.log(searchCode);
       const last = spotifyApi.getPlaylist(searchCode.bodyid)
   .then(function(data) {
