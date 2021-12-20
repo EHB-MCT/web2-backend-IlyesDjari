@@ -103,7 +103,7 @@ app.get("/allgenerated", async (req, res) => {
     let searchCode = await mdb.getCode();
     console.log(searchCode);
     
-    searchCode.forEach((user) => console.log(user._id ,user.bodyid));
+    searchCode.forEach((user) => console.log(user.bodyid));
       // spotifyApi.getPlaylist(searchCode.bodyid)
       // .then(function(data) {
       //   console.log('Some information about this playlist', data.body);
