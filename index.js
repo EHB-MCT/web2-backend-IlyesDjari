@@ -8,6 +8,7 @@ const app = express();
 const SpotifyWebApi = require("spotify-web-api-node");
 const mdb = require("./mongo.js");
 const PORT = process.env.PORT || 8888;
+const alllists = [];
 
 // credentials
 const clientId = "75d6012515364a608ebbf7ec5113308c";
@@ -99,7 +100,6 @@ app.get("/currentsong", async (req, res) => {
 
 app.get("/allgenerated", async (req, res) => {
   try {
-    let alllists = [];
     console.log(allists);
     await mdb.connectMongo();
     let searchCode = await mdb.getCode();
