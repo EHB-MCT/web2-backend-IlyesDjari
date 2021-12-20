@@ -118,8 +118,12 @@ app.post("/featured", async (req, res) => {
 app.post("/create", async (req, res) => {
   let obj = await req.body
   console.log(obj);
-  const playlistcreate = await spotifyApi.createPlaylist(obj);
-  res.send(playlistcreate)
+  const playlistcreate = await spotifyApi.createPlaylist('My playlist', { 'description': 'My description', 'public': true })
+  .then(function(data) {
+    console.log('Created playlist!');
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
 });
 
 
