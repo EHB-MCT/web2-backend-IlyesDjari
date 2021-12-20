@@ -97,27 +97,27 @@ app.get("/currentsong", async (req, res) => {
   res.send(song);
 });
 
-app.get("/allgenerated", async (req, res) => {
-  try {
-    await mdb.connectMongo();
-    let searchCode = await mdb.getCode();
+// app.get("/allgenerated", async (req, res) => {
+//   try {
+//     await mdb.connectMongo();
+//     let searchCode = await mdb.getCode();
 
-    searchCode.forEach((user) => spotifyApi.getPlaylist(user.bodyid)
-    .then(function(data) {
-      console.log('Some information about this playlist', data);
-      res.write(data)
+//     searchCode.forEach((user) => spotifyApi.getPlaylist(user.bodyid)
+//     .then(function(data) {
+//       console.log('Some information about this playlist', data);
+//       res.write(data)
       
-    }, function(err) {
-      console.log('Something went wrong!', err);
-    }));;
-    res.end();
-  } catch (error) {
-    console.log(error);
-  } finally {
-    mdb.closeDatabaseConnection();
-  }
+//     }, function(err) {
+//       console.log('Something went wrong!', err);
+//     }));;
+//     res.end();
+//   } catch (error) {
+//     console.log(error);
+//   } finally {
+//     mdb.closeDatabaseConnection();
+//   }
 
-});
+// });
 
 
 // Get recomended songs
