@@ -98,14 +98,16 @@ app.get("/currentsong", async (req, res) => {
 });
 
 app.get("/allgenerated", async (req, res) => {
-  let alllists = [];
   try {
+    let alllists = [];
+    console.log(allists);
     await mdb.connectMongo();
     let searchCode = await mdb.getCode();
     searchCode.forEach((user) => spotifyApi.getPlaylist(user.bodyid)
     .then(function(data) {
       console.log('Some information about this playlist', data);
-      alllists.push(data)
+      alllists.push(data);
+      console.log(allists);
     }, function(err) {
       console.log('Something went wrong!', err);
     }));;
