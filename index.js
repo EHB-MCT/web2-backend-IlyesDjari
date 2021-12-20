@@ -124,8 +124,6 @@ app.post("/create", async (req, res) => {
   }
 });
 
-
-
 app.get("/lastfeatured", async (req, res) => {
   try {
     await mdb.connectMongo();
