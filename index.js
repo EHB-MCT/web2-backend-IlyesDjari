@@ -97,7 +97,6 @@ app.get("/currentsong", async (req, res) => {
   res.send(song);
 });
 
-
 app.get("/allgenerated", async (req, res) => {
   try {
     await mdb.connectMongo();
