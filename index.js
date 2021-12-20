@@ -129,6 +129,7 @@ app.post("/create", async (req, res) => {
 
 app.post("/addtoplaylist", async (req, res) => {
   let obj = await req.body
+  console.log(obj.songs);
   await spotifyApi.addTracksToPlaylist(`${obj.playlistid}`, obj.songs)
   .then(function(data) {
   }, function(err) {
@@ -151,7 +152,6 @@ app.get("/lastplaylist", async (req, res) => {
   try {
       await mdb.connectMongo();
       let searchCode = await mdb.lastId();
-
       console.log(searchCode);
       spotifyApi.getPlaylist(searchCode.bodyid)
   .then(function(data) {
