@@ -102,10 +102,12 @@ app.get("/allgenerated", async (req, res) => {
     await mdb.connectMongo();
     let searchCode = await mdb.getCode();
     console.log(searchCode);
-    searchCode.forEach(id => {
-      for (let key in id) {
+    
+    searchCode.forEach(mobile => {
+      for (let key in mobile) {
           console.log(`${key}: ${mobile[key]}`);
       }
+  });
       // spotifyApi.getPlaylist(searchCode.bodyid)
       // .then(function(data) {
       //   console.log('Some information about this playlist', data.body);
