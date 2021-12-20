@@ -119,7 +119,6 @@ app.get("/newreleases", async (req, res) => {
 });
 
 
-
 app.use(express.static("public"));
 console.log(PORT);
 app.listen(PORT, () => console.log("HTTP Server up."));
