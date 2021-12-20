@@ -101,17 +101,15 @@ app.get("/allgenerated", async (req, res) => {
   try {
     await mdb.connectMongo();
     let searchCode = await mdb.getCode();
-    console.log(searchCode);
-    
-    searchCode.forEach((user) => console.log(user.bodyid));
-      // spotifyApi.getPlaylist(searchCode.bodyid)
-      // .then(function(data) {
-      //   console.log('Some information about this playlist', data.body);
-      //   alllists.push(data.body)
-      // }, function(err) {
-      //   console.log('Something went wrong!', err);
-      // })
-      // res.send(alllists);
+    let alllists = [];
+    searchCode.forEach((user) => spotifyApi.getPlaylist(user.bodyid)
+    .then(function(data) {
+      console.log('Some information about this playlist', data.body);
+      alllists.push(data.body)
+    }, function(err) {
+      console.log('Something went wrong!', err);
+    }));
+      res.send(alllists);
 ;
   } catch (error) {
     console.log(error);
