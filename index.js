@@ -99,11 +99,31 @@ app.get("/currentsong", async (req, res) => {
 
 app.post("/featured", async (req, res) => {
   let obj = await req.body
-  
   console.log("featured called ", obj);
   const featured = await spotifyApi.getRecommendations(obj);
   console.log(featured.body.tracks);
+
+   
+  if (!req.body) {
+    res.status(400).send("Bad request: missing code");
+    return;
+  }
+  try {
+    await mdb.connectMongo();
+    let bodycode = req.body;
+    const sentCode = await mdb.addCode(bodycode);
+    res.status(200).send(sentCode);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mdb.closeDatabaseConnection();
+  }
   res.send(featured);
+});
+
+app.get("/featured", async (req, res) => {
+  
+  res.send(playlist);
 });
 
 

@@ -30,20 +30,11 @@ const client = new mdb.MongoClient(URL, {
 
 
       const database = client.db('Oto');
-      const code = database.collection("code");
-
-      let checkCode = await code.findOne({"bodycode": bodycode})
+      const playlists = database.collection("playlists");
       
-      console.log("This code already known?",checkCode);
-
-
-      if(checkCode == null) {
-      const sentCode = await code.insertOne({bodycode})
-      console.log("Here is the sent code",sentCode);
+      const sentCode = await playlists.insertOne({bodycode})
+      console.log("Here is the sent playlist",sentCode);
         return sentCode;
-      } else {
-        console.log("Already existing code");
-      }
     }
 
     async function lastCode() {
