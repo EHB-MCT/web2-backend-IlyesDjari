@@ -147,7 +147,7 @@ app.post("/addtoplaylist", async (req, res) => {
   }
 });
 
-pp.get("/lastplaylist", async (req, res) => {
+app.get("/lastplaylist", async (req, res) => {
   try {
       await mdb.connectMongo();
       let searchCode = await mdb.lastId();
