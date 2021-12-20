@@ -98,7 +98,7 @@ app.get("/currentsong", async (req, res) => {
 });
 
 app.post("/featured", async (req, res) => {
-  let obj = await req.body.obj()
+  let obj = await req.body
   
   console.log("featured called ", obj);
   const featured = await spotifyApi.getRecommendations(obj);
