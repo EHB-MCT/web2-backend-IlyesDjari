@@ -182,7 +182,13 @@ app.get("/lastfeatured", async (req, res) => {
 try {
     await mdb.connectMongo();
     let searchCode = await mdb.lastCode();
-    res.status(200).json(searchCode);
+    spotifyApi.getPlaylist(searchCode.bodyid)
+    .then(function(data) {
+      console.log('Some information about this playlist', data.body);
+      res.send(data.body)
+    }, function(err) {
+      console.log('Something went wrong!', err);
+    });
   } catch (error) {
     console.log(error);
   } finally {
