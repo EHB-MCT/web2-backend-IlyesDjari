@@ -34,8 +34,15 @@ const client = new mdb.MongoClient(URL, {
         return sentCode;
     }
 
+    async function addId(bodyid) {
+      const database = client.db('Oto');
+      const playlists = database.collection("playlistid");
+      const sentCode = await playlists.insertOne({bodycode})
+      console.log("Here is the sent playlist id",sentCode);
+        return sentCode;
+    }
+
     async function lastCode() {
-     
       const db = client.db('Oto');
       const code = db.collection("playlists");
       const searchCode =  await code.find({}).toArray();
@@ -52,5 +59,6 @@ const client = new mdb.MongoClient(URL, {
             closeDatabaseConnection,
             addCode,
             getCode,
-            lastCode
+            lastCode,
+            addId
           };

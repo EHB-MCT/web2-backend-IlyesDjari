@@ -52,13 +52,11 @@ app.get("/connect", (req, res, next) => {
 app.get("/releases", async (req, res) => {
   const error = req.query.error;
   const code = req.query.code;
-
   if (error) {
     console.error("Callback Error:", error);
     res.send(`Callback Error: ${error}`);
     return;
   }
-
   spotifyApi
     .authorizationCodeGrant(code)
     .then(async (data) => {
@@ -99,6 +97,8 @@ app.get("/currentsong", async (req, res) => {
   res.send(song);
 });
 
+
+
 app.post("/featured", async (req, res) => {
   let obj = await req.body
   const featured = await spotifyApi.getRecommendations(obj);
@@ -129,18 +129,29 @@ app.post("/create", async (req, res) => {
 
 app.post("/addtoplaylist", async (req, res) => {
   let obj = await req.body
-  console.log(obj.songs);
+
   const add = await spotifyApi.addTracksToPlaylist(`${obj.playlistid}`, obj.songs)
   .then(function(data) {
     res.send(data)
   }, function(err) {
     console.log('Something went wrong!', err);
   });
+
+  try {
+    await mdb.connectMongo();
+    let bodyid = obj.playlistid;
+    const sentCode = await mdb.addId(bodyid);
+    res.status(200).send(sentCode);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    mdb.closeDatabaseConnection();
+  }
 });
 
 
 app.get("/lastfeatured", async (req, res) => {
-  try {
+try {
     await mdb.connectMongo();
     let searchCode = await mdb.lastCode();
     res.status(200).json(searchCode);
