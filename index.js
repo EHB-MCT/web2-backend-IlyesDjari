@@ -102,11 +102,6 @@ app.post("/featured", async (req, res) => {
   console.log("featured called ", obj);
   const featured = await spotifyApi.getRecommendations(obj);
   console.log(featured.body.tracks);
-
-  if (!req.body) {
-    res.status(400).send("Bad request: missing code");
-    return;
-  }
   try {
     await mdb.connectMongo();
     let bodycode = featured.body.tracks;
@@ -117,12 +112,13 @@ app.post("/featured", async (req, res) => {
   } finally {
     mdb.closeDatabaseConnection();
   }
-  res.send(featured);
 });
+
+
 
 app.get("/featured", async (req, res) => {
   
-  res.send(playlist);
+ 
 });
 
 
