@@ -20,7 +20,7 @@ const client = new mdb.MongoClient(URL, {
 
     async function getCode() {
         const db = client.db('Oto');
-        const code = db.collection("code");
+        const code = db.collection("playlistid");
         const searchCode =  await code.find({}).toArray();
         return searchCode;
     }

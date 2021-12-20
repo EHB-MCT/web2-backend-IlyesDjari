@@ -97,6 +97,10 @@ app.get("/currentsong", async (req, res) => {
   res.send(song);
 });
 
+app.get("/allgenerated", async (req, res) => {
+  
+});
+
 
 
 app.post("/featured", async (req, res) => {
