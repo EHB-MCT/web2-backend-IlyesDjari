@@ -97,7 +97,7 @@ app.get("/currentsong", async (req, res) => {
   res.send(song);
 });
 
-app.post("/featured", async (req, res) => {
+app.get("/featured", async (req, res) => {
   const obj = {
     limit: 20,
     seed_genres: hip-hop, 
