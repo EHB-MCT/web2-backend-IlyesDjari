@@ -127,6 +127,20 @@ app.post("/create", async (req, res) => {
 });
 
 
+app.post("/addtoplaylist", async (req, res) => {
+  let obj = await req.body
+  console.log(obj);
+  const add = await spotifyApi.addTracksToPlaylist(`${obj.playlistid}`, [`${obj.songs}`])
+  .then(function(data) {
+    console.log('Added tracks to playlist!', data);
+    console.log("The send", add);
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+
+
+});
+
 
 app.get("/lastfeatured", async (req, res) => {
   try {
