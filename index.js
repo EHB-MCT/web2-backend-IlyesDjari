@@ -110,7 +110,6 @@ app.get("/allgenerated", async (req, res) => {
 });
 
 
-
 app.post("/featured", async (req, res) => {
   let obj = await req.body
   const featured = await spotifyApi.getRecommendations(obj);
