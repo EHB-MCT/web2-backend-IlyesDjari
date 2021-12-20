@@ -111,7 +111,7 @@ app.post("/featured", async (req, res) => {
 app.get("/newreleases", async (req, res) => {
   let releases = await spotifyApi.getNewReleases({
     limit: 5,
-    offset: 0,
+    offset: 20,
     market: "BE"
   });
   res.send(releases);
