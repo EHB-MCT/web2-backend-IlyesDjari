@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.get("/", (req,res,next) => {
 res.send("World")});
 
+
 let scopes = [
   "user-read-private",
   "user-read-email",
@@ -73,13 +74,13 @@ app.get("/releases", async (req, res) => {
       console.log(
         `Sucessfully retreived access token. Expires in ${expires_in} s.`
       );
+      res.send("Success! You can now close the window.");
 
       setInterval(async () => {
         const data = await spotifyApi.refreshAccessToken();
         const access_token = data.body["access_token"];
         spotifyApi.setAccessToken(access_token);
       }, (expires_in / 2) * 1000);
-      
     })
     .catch((error) => {
       console.error("Error getting Tokens:", error);
