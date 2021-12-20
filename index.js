@@ -106,6 +106,7 @@ app.post("/featured", async (req, res) => {
   //   offset: 1,
   //   country: "US",
 
+  
   const featured = spotifyApi.getRecommendations(ob);
   res.send(featured);
 });
@@ -117,7 +118,6 @@ app.get("/newreleases", async (req, res) => {
   });
   res.send(releases);
 });
-
 
 app.use(express.static("public"));
 console.log(PORT);
