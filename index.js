@@ -118,7 +118,7 @@ app.post("/featured", async (req, res) => {
 app.post("/create", async (req, res) => {
   let obj = await req.body
   console.log(obj);
-  await spotifyApi.createPlaylist(`${obj.name}`, { 'description': 'This playlist is generated with OTO', 'public': false })
+  await spotifyApi.createPlaylist(`${obj.name}`, { 'description': 'This playlist is generated with OTO', 'public': true })
   .then(function(data) {
    res.send(data)
   }, function(err) {
@@ -156,6 +156,7 @@ app.get("/lastplaylist", async (req, res) => {
       spotifyApi.getPlaylist(searchCode.bodyid)
   .then(function(data) {
     console.log('Some information about this playlist', data.body);
+    res.send(data.body)
   }, function(err) {
     console.log('Something went wrong!', err);
   });
