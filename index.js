@@ -101,16 +101,18 @@ app.get("/allgenerated", async (req, res) => {
   try {
     await mdb.connectMongo();
     let searchCode = await mdb.getCode();
-    Object.values(searchCode).forEach(val => {
-      console.log(val);
-    });
-//     spotifyApi.getPlaylist(searchCode.bodyid)
-// .then(function(data) {
-//   console.log('Some information about this playlist', data.body);
-//   res.send(data.body)
-// }, function(err) {
-//   console.log('Something went wrong!', err);
-// });
+    const alllists = []
+    for(let i = 0 ; i<6 ; i++) {
+      spotifyApi.getPlaylist(searchCode.bodyid[i])
+      .then(function(data) {
+        console.log('Some information about this playlist', data.body);
+        alllists.push(data.body)
+      }, function(err) {
+        console.log('Something went wrong!', err);
+      })
+      res.send(alllists);
+    } 
+;
   } catch (error) {
     console.log(error);
   } finally {
