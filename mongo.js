@@ -27,11 +27,8 @@ const client = new mdb.MongoClient(URL, {
     
 
     async function addCode(bodycode) {
-
-
       const database = client.db('Oto');
       const playlists = database.collection("playlists");
-      
       const sentCode = await playlists.insertOne({bodycode})
       console.log("Here is the sent playlist",sentCode);
         return sentCode;
