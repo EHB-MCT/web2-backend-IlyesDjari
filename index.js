@@ -18,17 +18,30 @@ const redirectUri = "https://otomusic.herokuapp.com/releases";
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get("/", (req,res,next) => {
+res.send("World")});
+
+
+let scopes = [
+  "user-read-private",
+  "user-read-email",
+  "playlist-read-private",
+  "playlist-read-collaborative",
+  "user-read-email",
+  "streaming",
+  "user-top-read",
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+  "user-read-recently-played",
+  "user-follow-read",
+];
+
 let spotifyApi = new SpotifyWebApi({
   clientId,
   clientSecret,
   redirectUri,
 });
-
-app.get("/", (req,res,next) => {
-res.send("Hello World")
-
-
-})
 
 app.get("/connect", (req, res, next) => {
   let url = spotifyApi.createAuthorizeURL(scopes);
