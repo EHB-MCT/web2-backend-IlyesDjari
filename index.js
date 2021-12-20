@@ -118,7 +118,7 @@ app.post("/featured", async (req, res) => {
 app.post("/create", async (req, res) => {
   let obj = await req.body
   console.log(obj);
-  const playlistcreate = await spotifyApi.createPlaylist('My playlist', { 'description': 'My description', 'public': true })
+  const playlistcreate = await spotifyApi.createPlaylist(`${obj[0].name}`, { 'description': 'This playlist is generated with OTO', 'public': true })
   .then(function(data) {
     console.log('Created playlist!');
   }, function(err) {
