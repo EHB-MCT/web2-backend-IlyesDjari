@@ -113,7 +113,7 @@ app.get("/featured", async (req, res) => {
   //   country: "US",
 
 
-  const featured = spotifyApi.getRecommendations(obj);
+  const featured = await spotifyApi.getRecommendations(obj);
   res.send(featured);
 });
 
