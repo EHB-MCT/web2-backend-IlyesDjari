@@ -152,15 +152,12 @@ app.get("/lastplaylist", async (req, res) => {
       await mdb.connectMongo();
       let searchCode = await mdb.lastId();
       console.log(searchCode);
-      const last = spotifyApi.getPlaylist('5ieJqeLJjjI8iJWaxeBLuK')
+      const last = spotifyApi.getPlaylist(searchCode.bodyid)
   .then(function(data) {
     console.log('Some information about this playlist', data.body);
   }, function(err) {
     console.log('Something went wrong!', err);
   });
-      
-
-
     } catch (error) {
       console.log(error);
     } finally {
