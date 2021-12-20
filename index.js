@@ -98,7 +98,12 @@ app.get("/currentsong", async (req, res) => {
 });
 
 app.post("/featured", async (req, res) => {
-  const obj = req.body;
+  const obj = {
+    limit: 20,
+    seed_genres: hip-hop, 
+    target_energy: 50, 
+    target_popularity: 60
+}
   
   console.log("featured called ", obj);
   // {
@@ -110,6 +115,8 @@ app.post("/featured", async (req, res) => {
   const featured = spotifyApi.getRecommendations(obj);
   res.send(featured);
 });
+
+
 app.get("/newreleases", async (req, res) => {
   let releases = await spotifyApi.getNewReleases({
     limit: 5,
