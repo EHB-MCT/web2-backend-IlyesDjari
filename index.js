@@ -101,13 +101,20 @@ app.get("/allgenerated", async (req, res) => {
   try {
     await mdb.connectMongo();
     const sentCode = await mdb.getCode();
-    res.status(200).send(sentCode);
+    spotifyApi.getPlaylist(sentCode.bodyid)
+  .then(function(data) {
+    console.log('Some information about this playlist', data.body);
+    res.send(data.body)
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
   } catch (error) {
     console.log(error);
   } finally {
     mdb.closeDatabaseConnection();
   }
 });
+
 
 
 app.post("/featured", async (req, res) => {
@@ -159,6 +166,7 @@ app.post("/addtoplaylist", async (req, res) => {
   }
 });
 
+
 app.get("/lastplaylist", async (req, res) => {
   try {
       await mdb.connectMongo();
@@ -182,13 +190,7 @@ app.get("/lastfeatured", async (req, res) => {
 try {
     await mdb.connectMongo();
     let searchCode = await mdb.lastCode();
-    spotifyApi.getPlaylist(searchCode.bodyid)
-    .then(function(data) {
-      console.log('Some information about this playlist', data.body);
-      res.send(data.body)
-    }, function(err) {
-      console.log('Something went wrong!', err);
-    });
+    res.status(200).json(searchCode);
   } catch (error) {
     console.log(error);
   } finally {
