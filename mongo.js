@@ -37,7 +37,7 @@ const client = new mdb.MongoClient(URL, {
     async function addId(bodyid) {
       const database = client.db('Oto');
       const playlists = database.collection("playlistid");
-      const sentCode = await playlists.insertOne({bodycode})
+      const sentCode = await playlists.insertOne({bodyid})
       console.log("Here is the sent playlist id",sentCode);
         return sentCode;
     }
