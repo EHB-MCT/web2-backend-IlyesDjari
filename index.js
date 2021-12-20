@@ -117,7 +117,7 @@ app.post("/featured", async (req, res) => {
 app.get("/lastfeatured", async (req, res) => {
   try {
     await mdb.connectMongo();
-    let searchCode = await mdb.getCode();
+    let searchCode = await mdb.lastCode();
     res.status(200).json(searchCode);
   } catch (error) {
     console.log(error);
