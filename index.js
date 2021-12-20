@@ -103,9 +103,7 @@ app.get("/allgenerated", async (req, res) => {
     let searchCode = await mdb.getCode();
     console.log(searchCode);
     for (const [key, value] of Object.entries(searchCode)) {
-      //you can do your operations here
-      console.log("Do i work?",`${key} ${value}`); // "a 5", "b 7", "c 9"
-    
+            console.log("Do i work?",`${key} ${value}`);
     }
       // spotifyApi.getPlaylist(searchCode.bodyid)
       // .then(function(data) {
