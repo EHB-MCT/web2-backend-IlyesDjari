@@ -18,21 +18,6 @@ const redirectUri = "http://localhost:8888/releases";
 app.use(cors());
 app.use(bodyParser.json());
 
-let scopes = [
-  "user-read-private",
-  "user-read-email",
-  "playlist-read-private",
-  "playlist-read-collaborative",
-  "user-read-email",
-  "streaming",
-  "user-top-read",
-  "user-read-playback-state",
-  "user-modify-playback-state",
-  "user-read-currently-playing",
-  "user-read-recently-played",
-  "user-follow-read",
-];
-
 let spotifyApi = new SpotifyWebApi({
   clientId,
   clientSecret,
