@@ -97,22 +97,10 @@ app.get("/currentsong", async (req, res) => {
   res.send(song);
 });
 
-app.get("/featured", async (req, res) => {
-  const obj = {
-    limit: 20,
-    market: "BE",
-    seed_genres: "hip-hop", 
-    target_energy: 50, 
-    target_popularity: 60
-}
+app.post("/featured", async (req, res) => {
+  let obj = await req.body()
   
   console.log("featured called ", obj);
-  // {
-  //   limit: 5,
-  //   offset: 1,
-  //   country: "US",
-
-
   const featured = await spotifyApi.getRecommendations(obj);
   res.send(featured);
 });
