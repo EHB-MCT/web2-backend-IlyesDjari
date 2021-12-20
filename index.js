@@ -115,7 +115,6 @@ app.get("/allgenerated", async (req, res) => {
   }
 });
 
-
 // Get recomended songs
 app.post("/featured", async (req, res) => {
   let obj = await req.body
