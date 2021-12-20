@@ -100,6 +100,7 @@ app.get("/currentsong", async (req, res) => {
 app.get("/featured", async (req, res) => {
   const obj = {
     limit: 20,
+    market: "BE",
     seed_genres: "hip-hop", 
     target_energy: 50, 
     target_popularity: 60
