@@ -117,6 +117,7 @@ app.post("/featured", async (req, res) => {
 
 app.post("/create", async (req, res) => {
   let obj = await req.body
+  console.log(obj);
   const playlistcreate = await spotifyApi.createPlaylist(obj);
   res.send(playlistcreate)
 });
