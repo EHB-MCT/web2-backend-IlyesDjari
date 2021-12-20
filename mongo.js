@@ -24,36 +24,7 @@ const client = new mdb.MongoClient(URL, {
         const searchCode =  await code.find({}).toArray();
         return searchCode;
     }
-    
 
-    async function addCode(bodycode) {
-
-
-      const database = client.db('Oto');
-      const code = database.collection("code");
-
-      let checkCode = await code.findOne({"bodycode": bodycode})
-      
-      console.log("This code already known?",checkCode);
-
-
-      if(checkCode == null) {
-      const sentCode = await code.insertOne({bodycode})
-      console.log("Here is the sent code",sentCode);
-        return sentCode;
-      } else {
-        console.log("Already existing code");
-      }
-    }
-
-    async function lastCode() {
-     
-      const db = client.db('Oto');
-      const code = db.collection("code");
-      const searchCode =  await code.find({}).toArray();
-      var last = searchCode[searchCode.length-1].bodycode;
-     return last;
-    }
 
       
     function closeDatabaseConnection() {
@@ -61,8 +32,5 @@ const client = new mdb.MongoClient(URL, {
       }
         module.exports = {
             connectMongo,
-            closeDatabaseConnection,
-            addCode,
-            getCode,
-            lastCode
+            closeDatabaseConnection
           };

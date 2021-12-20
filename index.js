@@ -93,10 +93,12 @@ app.get("/getlist/:username", async (req, res) => {
   let list = await spotifyApi.getUserPlaylists(name);
   res.send(list);
 });
+
 app.get("/currentsong", async (req, res) => {
   const song = await spotifyApi.getMyCurrentPlayingTrack();
   res.send(song);
 });
+
 app.post("/featured", async (req, res) => {
   const obj = req.body;
   console.log("featured called ", obj);
@@ -112,39 +114,9 @@ app.get("/newreleases", async (req, res) => {
   let releases = await spotifyApi.getNewReleases({
     limit: 5,
     offset: 0,
-    country: "US",
-    market: "US",
+    market: "BE",
   });
   res.send(releases);
-});
-
-app.post("/getcode", async (req, res, next) => {
-  if (!req.body.code) {
-    res.status(400).send("Bad request: missing code");
-    return;
-  }
-  try {
-    await mdb.connectMongo();
-    let bodycode = req.body.code;
-    const sentCode = await mdb.addCode(bodycode);
-    res.status(200).send(sentCode);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    mdb.closeDatabaseConnection();
-  }
-});
-
-app.get("/getcode", async (req, res, next) => {
-  try {
-    await mdb.connectMongo();
-    let searchCode = await mdb.getCode();
-    res.status(200).json(searchCode);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    mdb.closeDatabaseConnection();
-  }
 });
 
 app.use(express.static("public"));
