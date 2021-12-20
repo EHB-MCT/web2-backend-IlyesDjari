@@ -74,7 +74,7 @@ app.get("/releases", async (req, res) => {
       console.log(
         `Sucessfully retreived access token. Expires in ${expires_in} s.`
       );
-      res.send("Success! You can now close the window.");
+      res.redirect('https://ehb-mct.github.io/web2-frontend-IlyesDjari/pages/home.html')
 
       setInterval(async () => {
         const data = await spotifyApi.refreshAccessToken();
