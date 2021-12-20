@@ -50,6 +50,14 @@ const client = new mdb.MongoClient(URL, {
      return last;
     }
 
+    async function lastId() {
+      const db = client.db('Oto');
+      const code = db.collection("playlistid");
+      const searchCode =  await code.find({}).toArray();
+      var last = searchCode[searchCode.length-1];
+     return last;
+    }
+
       
     function closeDatabaseConnection() {
         client.close();
@@ -60,5 +68,6 @@ const client = new mdb.MongoClient(URL, {
             addCode,
             getCode,
             lastCode,
-            addId
+            addId,
+            lastId
           };

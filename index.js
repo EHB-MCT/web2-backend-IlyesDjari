@@ -129,7 +129,6 @@ app.post("/create", async (req, res) => {
 
 app.post("/addtoplaylist", async (req, res) => {
   let obj = await req.body
-
   const add = await spotifyApi.addTracksToPlaylist(`${obj.playlistid}`, obj.songs)
   .then(function(data) {
   }, function(err) {
@@ -147,6 +146,28 @@ app.post("/addtoplaylist", async (req, res) => {
     mdb.closeDatabaseConnection();
   }
 });
+
+pp.get("/lastplaylist", async (req, res) => {
+  try {
+      await mdb.connectMongo();
+      let searchCode = await mdb.lastId();
+      console.log(searchCode);
+      const last = spotifyApi.getPlaylist('5ieJqeLJjjI8iJWaxeBLuK')
+  .then(function(data) {
+    console.log('Some information about this playlist', data.body);
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+      
+
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      mdb.closeDatabaseConnection();
+    }
+  });
+
 
 
 app.get("/lastfeatured", async (req, res) => {
