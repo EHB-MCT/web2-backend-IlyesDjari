@@ -97,18 +97,19 @@ app.get("/currentsong", async (req, res) => {
   res.send(song);
 });
 
+
 app.get("/allgenerated", async (req, res) => {
   try {
     await mdb.connectMongo();
-    const sentCode = await mdb.getCode();
-
-    spotifyApi.getPlaylist(sentCode.bodyid)
-  .then(function(data) {
-    console.log('Some information about this playlist', data);
-    res.send(data)
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
+    let searchCode = await mdb.getCode();
+    console.log(searchCode);
+//     spotifyApi.getPlaylist(searchCode.bodyid)
+// .then(function(data) {
+//   console.log('Some information about this playlist', data.body);
+//   res.send(data.body)
+// }, function(err) {
+//   console.log('Something went wrong!', err);
+// });
   } catch (error) {
     console.log(error);
   } finally {
@@ -117,7 +118,7 @@ app.get("/allgenerated", async (req, res) => {
 });
 
 
-
+// Get recomended songs
 app.post("/featured", async (req, res) => {
   let obj = await req.body
   const featured = await spotifyApi.getRecommendations(obj);
@@ -133,7 +134,7 @@ app.post("/featured", async (req, res) => {
   }
 });
 
-
+// Creates an empty playlist on Spotify
 app.post("/create", async (req, res) => {
   let obj = await req.body
   console.log(obj);
@@ -145,7 +146,7 @@ app.post("/create", async (req, res) => {
   });
 });
 
-
+// Adds featured songs to the playlist
 app.post("/addtoplaylist", async (req, res) => {
   let obj = await req.body
   console.log(obj.songs);
@@ -167,7 +168,7 @@ app.post("/addtoplaylist", async (req, res) => {
   }
 });
 
-
+// Gives info of the last created playlist
 app.get("/lastplaylist", async (req, res) => {
   try {
       await mdb.connectMongo();
@@ -187,6 +188,7 @@ app.get("/lastplaylist", async (req, res) => {
     }
   });
 
+  // Last featured get fetched
 app.get("/lastfeatured", async (req, res) => {
 try {
     await mdb.connectMongo();
@@ -199,7 +201,7 @@ try {
   }
 });
 
-
+// Get the new releases for  the belgian market
 app.get("/newreleases", async (req, res) => {
   let releases = await spotifyApi.getNewReleases({
     limit: 5,
