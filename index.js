@@ -120,9 +120,13 @@ app.post("/create", async (req, res) => {
   console.log(obj);
   const playlistcreate = await spotifyApi.createPlaylist(`${obj.name}`, { 'description': 'This playlist is generated with OTO', 'public': true })
   .then(function(data) {
-    res.send(data)
-  }
+   res.send(data)
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
 });
+
+
 
 app.get("/lastfeatured", async (req, res) => {
   try {
