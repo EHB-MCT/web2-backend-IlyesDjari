@@ -38,6 +38,7 @@ let scopes = [
   "user-follow-read",
 ];
 
+
 let spotifyApi = new SpotifyWebApi({
   clientId,
   clientSecret,
