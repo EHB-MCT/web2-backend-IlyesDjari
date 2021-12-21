@@ -119,7 +119,6 @@ app.get("/currentsong", async (req, res) => {
 
 // });
 
-
 // Get recomended songs
 app.post("/featured", async (req, res) => {
   let obj = await req.body
@@ -212,6 +211,8 @@ app.get("/newreleases", async (req, res) => {
   });
   res.send(releases);
 });
+
+
 
 app.use(express.static("public"));
 console.log(PORT);
