@@ -10,9 +10,9 @@ const mdb = require("./mongo.js");
 const PORT = process.env.PORT || 8888;
 
 // credentials
-const clientId = "75d6012515364a608ebbf7ec5113308c";
-const clientSecret = "e9069eeeb800474394cbe578f1a93c67";
-const redirectUri = "https://otomusic.herokuapp.com/releases";
+const clientId = process.env.clientId;
+const clientSecret = process.env.clientSecret;
+const redirectUri = process.env.redirectUri;
 
 // Avoid any CORS error :'(
 app.use(cors());
