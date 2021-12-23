@@ -205,7 +205,7 @@ try {
 app.get("/newreleases", async (req, res) => {
   let releases = await spotifyApi.getNewReleases({
     limit: 5,
-    offset: 20,
+    offset: 50,
     market: "BE"
   });
   res.send(releases);
