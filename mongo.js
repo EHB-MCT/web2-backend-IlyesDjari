@@ -21,7 +21,7 @@ const client = new mdb.MongoClient(URL, {
     async function getCode() {
         const db = client.db('Oto');
         const code = db.collection("playlistid");
-        const searchCode =  await code.find({}).sort({_id:-1}).toArray();
+        const searchCode =  await code.find({}).sort({_id:-1}).limit(6).toArray();
         return searchCode;
     }
     
