@@ -19,7 +19,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", (req,res,next) => {
-  res.redirect('/public/index.html');
+  res.redirect('./index.html');
 res.send("World")});
 
 let scopes = [
@@ -205,7 +205,7 @@ try {
 app.get("/newreleases", async (req, res) => {
   let releases = await spotifyApi.getNewReleases({
     limit: 5,
-    offset: 50,
+    offset: 30,
     market: "BE"
   });
   res.send(releases);
