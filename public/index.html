@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="https://cdn.rawgit.com/mfd/f3d96ec7f0e8f034cc22ea73b3797b59/raw/856f1dbb8d807aabceb80b6d4f94b464df461b3e/gotham.css">
+    <title>Oto backend</title>
+</head>
+<body>
+    <h1>Welcome on OTO's backend</h1>
+    <h2>Here are all the routes</h2>
+    <div>
+        <p>/connect GET      --       Sends user to the Spotify authorization website</p>
+        <p>/releases GET       --       When user is redirected his acces token en refresh token is set, when done user is redirected to the website</p>
+        <p>/getuser GET       --       Gets all user profile information</p>
+        <p>/currentsong GET       --       Gets users currentsong</p>
+        <p>/newreleases GET       --       Gets new releases for Belgian market</p>
+        <p>/allgenerated GET       --       Gets all past generated playlist id's and transforms it into playlists</p>
+        <p>/featured POST       --       Gets all user choices and makes a recommended playlist</p>
+        <p>/create POST       --       Creates an empty playlist on Spotify with users chosen name</p>
+        <p>/addtoplaylist POST       --       Gets generated songs from database and adds them to the empty playlist</p>
+        <p>/lastplaylist GET       --       Gets the created playlist of the user and sends the result</p>
+    </div>
+    
+</body>
+</html>

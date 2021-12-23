@@ -1,0 +1,38 @@
+body {
+    background-color: #a065ff;
+}
+
+@font-face {
+    font-family: "Gotham";
+    src: url("/fonts/GothamBold") format("ttf");
+    font-weight: bold;
+  }
+  
+  * {
+    font-family: "Gotham", sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+  }
+
+  h1 {
+      text-align: center;
+      margin-top: 20vh;
+  }
+  h2 {
+      margin-top: 2vh;
+      text-align: center;
+  }
+
+div {
+      margin-top: 15vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      gap: 1vh;
+  }
+
+  p {
+      text-align: center;
+  }

@@ -19,6 +19,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", (req,res,next) => {
+  res.redirect('/public/index.html');
 res.send("World")});
 
 let scopes = [
@@ -156,7 +157,6 @@ app.post("/addtoplaylist", async (req, res) => {
   }, function(err) {
     console.log('Something went wrong!', err);
   });
-
   try {
     await mdb.connectMongo();
     let bodyid = obj.playlistid;
